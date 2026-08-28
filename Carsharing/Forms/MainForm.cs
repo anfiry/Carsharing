@@ -59,7 +59,7 @@ namespace Carsharing.Forms
 
         private void btnHome_Click_1(object sender, EventArgs e)
         {
-            LoadContent(new HomeControl());
+            LoadContent(new HomeControl(_currentAccount));
         }
 
         private void btnRentCar_Click(object sender, EventArgs e)

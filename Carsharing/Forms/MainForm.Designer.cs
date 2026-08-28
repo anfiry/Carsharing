@@ -94,7 +94,7 @@
             // btnManageClients
             // 
             this.btnManageClients.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnManageClients.Location = new System.Drawing.Point(30, 385);
+            this.btnManageClients.Location = new System.Drawing.Point(30, 455);
             this.btnManageClients.Name = "btnManageClients";
             this.btnManageClients.Size = new System.Drawing.Size(234, 50);
             this.btnManageClients.TabIndex = 9;
@@ -105,7 +105,7 @@
             // btnManageCars
             // 
             this.btnManageCars.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnManageCars.Location = new System.Drawing.Point(30, 114);
+            this.btnManageCars.Location = new System.Drawing.Point(30, 184);
             this.btnManageCars.Name = "btnManageCars";
             this.btnManageCars.Size = new System.Drawing.Size(234, 50);
             this.btnManageCars.TabIndex = 8;
@@ -116,7 +116,7 @@
             // btnHome
             // 
             this.btnHome.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnHome.Location = new System.Drawing.Point(30, 29);
+            this.btnHome.Location = new System.Drawing.Point(30, 99);
             this.btnHome.Name = "btnHome";
             this.btnHome.Size = new System.Drawing.Size(234, 50);
             this.btnHome.TabIndex = 7;
@@ -127,7 +127,7 @@
             // btnFines
             // 
             this.btnFines.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnFines.Location = new System.Drawing.Point(30, 293);
+            this.btnFines.Location = new System.Drawing.Point(30, 363);
             this.btnFines.Name = "btnFines";
             this.btnFines.Size = new System.Drawing.Size(234, 50);
             this.btnFines.TabIndex = 6;
@@ -138,7 +138,7 @@
             // btnRentCar
             // 
             this.btnRentCar.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRentCar.Location = new System.Drawing.Point(30, 114);
+            this.btnRentCar.Location = new System.Drawing.Point(30, 184);
             this.btnRentCar.Name = "btnRentCar";
             this.btnRentCar.Size = new System.Drawing.Size(234, 50);
             this.btnRentCar.TabIndex = 5;
@@ -149,7 +149,7 @@
             // btnRentals
             // 
             this.btnRentals.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRentals.Location = new System.Drawing.Point(30, 205);
+            this.btnRentals.Location = new System.Drawing.Point(30, 275);
             this.btnRentals.Name = "btnRentals";
             this.btnRentals.Size = new System.Drawing.Size(234, 50);
             this.btnRentals.TabIndex = 3;

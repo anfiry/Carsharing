@@ -100,7 +100,7 @@ namespace Carsharing.Classes
             using (var db = new DBService())
             {
                 return db.ExecuteQuery(
-                    "SELECT * FROM get_client_rentals(@p_client_id) WHERE rental_status_id = 1",
+                    "SELECT * FROM get_client_rentals(@p_client_id) WHERE rental_status_name = 'Активна'",
                     new NpgsqlParameter("p_client_id", clientId));
             }
         }

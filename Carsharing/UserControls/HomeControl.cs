@@ -15,10 +15,13 @@ namespace Carsharing.UserControls
     {
 
         private readonly Account _account;
-
-        public HomeControl(Account account)
+        public HomeControl()
         {
             InitializeComponent();
+        }
+
+        public HomeControl(Account account) :this()
+        {
             _account = account;
             LoadData();
         }
@@ -68,7 +71,7 @@ namespace Carsharing.UserControls
                 lblRentalInfo.Text = "Активная аренда:";
                 dgvRental.Visible = true;
                 dgvRental.DataSource = activeRental;
-                SetupRentalGrid(dgvFines);
+                SetupRentalGrid(dgvRental);
             }
             else
             {
@@ -85,6 +88,8 @@ namespace Carsharing.UserControls
             if (unpaidFines.Rows.Count > 0)
             {
                 lblFines.Text = "Неоплаченные штрафы:";
+                lblFines.Visible = true;
+                lblFines.BringToFront();
                 dgvFines.Visible = true;
                 dgvFines.DataSource = unpaidFines;
                 SetupFinesGrid(dgvFines);
@@ -92,6 +97,8 @@ namespace Carsharing.UserControls
             else
             {
                 lblFines.Text = "Нет неоплаченных штрафов";
+                lblFines.Visible = true;
+                lblFines.BringToFront();
                 dgvFines.Visible = false;
                 dgvFines.DataSource = null;
             }

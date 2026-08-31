@@ -34,9 +34,13 @@
             this.dgvRental = new System.Windows.Forms.DataGridView();
             this.dgvFines = new System.Windows.Forms.DataGridView();
             this.lblFines = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panelWelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRental)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFines)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelWelcome
@@ -51,9 +55,10 @@
             // 
             // lblWelcome
             // 
+            this.lblWelcome.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblWelcome.AutoSize = true;
             this.lblWelcome.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblWelcome.Location = new System.Drawing.Point(439, 44);
+            this.lblWelcome.Location = new System.Drawing.Point(459, 40);
             this.lblWelcome.Name = "lblWelcome";
             this.lblWelcome.Size = new System.Drawing.Size(216, 28);
             this.lblWelcome.TabIndex = 0;
@@ -71,26 +76,34 @@
             // 
             // dgvRental
             // 
+            this.dgvRental.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRental.BackgroundColor = System.Drawing.Color.White;
+            this.dgvRental.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvRental.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRental.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRental.EnableHeadersVisualStyles = false;
-            this.dgvRental.Location = new System.Drawing.Point(38, 190);
+            this.dgvRental.Location = new System.Drawing.Point(0, 0);
             this.dgvRental.Name = "dgvRental";
             this.dgvRental.RowHeadersVisible = false;
             this.dgvRental.RowHeadersWidth = 51;
             this.dgvRental.RowTemplate.Height = 24;
-            this.dgvRental.Size = new System.Drawing.Size(1001, 151);
+            this.dgvRental.Size = new System.Drawing.Size(1038, 161);
             this.dgvRental.TabIndex = 2;
             // 
             // dgvFines
             // 
+            this.dgvFines.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvFines.BackgroundColor = System.Drawing.Color.White;
+            this.dgvFines.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvFines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFines.EnableHeadersVisualStyles = false;
-            this.dgvFines.Location = new System.Drawing.Point(38, 464);
+            this.dgvFines.Location = new System.Drawing.Point(0, 0);
             this.dgvFines.Name = "dgvFines";
             this.dgvFines.RowHeadersVisible = false;
             this.dgvFines.RowHeadersWidth = 51;
             this.dgvFines.RowTemplate.Height = 24;
-            this.dgvFines.Size = new System.Drawing.Size(1001, 137);
+            this.dgvFines.Size = new System.Drawing.Size(1038, 161);
             this.dgvFines.TabIndex = 4;
             // 
             // lblFines
@@ -103,13 +116,36 @@
             this.lblFines.TabIndex = 3;
             this.lblFines.Text = "Штрафы";
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.dgvRental);
+            this.panel1.Location = new System.Drawing.Point(62, 208);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1038, 161);
+            this.panel1.TabIndex = 5;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.dgvFines);
+            this.panel2.Location = new System.Drawing.Point(62, 483);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1038, 161);
+            this.panel2.TabIndex = 6;
+            // 
             // HomeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dgvFines);
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblFines);
-            this.Controls.Add(this.dgvRental);
             this.Controls.Add(this.lblRentalInfo);
             this.Controls.Add(this.panelWelcome);
             this.Name = "HomeControl";
@@ -118,6 +154,8 @@
             this.panelWelcome.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRental)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFines)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +169,7 @@
         private System.Windows.Forms.DataGridView dgvRental;
         private System.Windows.Forms.DataGridView dgvFines;
         private System.Windows.Forms.Label lblFines;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

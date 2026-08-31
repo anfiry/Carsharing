@@ -70,7 +70,7 @@ namespace Carsharing.Forms
 
         private void btnMyRentals_Click(object sender, EventArgs e)
         {
-            LoadContent(new RentalsControl());
+            LoadContent(new RentalsControl(_currentAccount));
 
         }
 
@@ -82,7 +82,7 @@ namespace Carsharing.Forms
 
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            LoadContent(new ProfileControl());
+            LoadContent(new ProfileControl(_currentAccount));
 
         }
 

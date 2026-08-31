@@ -56,7 +56,16 @@ namespace Carsharing.Classes
             }
         }
 
-
+        public DataTable GetAllOperators()
+        {
+            using (var db = new DBService())
+            {
+                return db.ExecuteQuery(@"
+            SELECT o.id_operator, a.login, o.last_name, o.first_name, o.patronymic, o.phone_number
+            FROM operatorr o
+            JOIN account a ON o.account_id = a.id_account");
+            }
+        }
 
     }
 }

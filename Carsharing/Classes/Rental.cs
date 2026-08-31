@@ -118,5 +118,13 @@ namespace Carsharing.Classes
             }
         }
 
+        public DataTable GetAllRentals()
+        {
+            using (var db = new DBService())
+            {
+                return db.ExecuteQuery("SELECT * FROM get_all_rentals()");
+            }
+        }
+
     }
 }

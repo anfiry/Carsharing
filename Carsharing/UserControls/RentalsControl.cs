@@ -64,7 +64,9 @@ namespace Carsharing.UserControls
         {
             dgv.RowHeadersVisible = false;
             dgv.EnableHeadersVisualStyles = false;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            // Скрываем ID и технические столбцы
             if (dgv.Columns.Contains("id_rental"))
                 dgv.Columns["id_rental"].Visible = false;
             if (dgv.Columns.Contains("id_client"))
@@ -73,11 +75,30 @@ namespace Carsharing.UserControls
                 dgv.Columns["car_id"].Visible = false;
             if (dgv.Columns.Contains("rental_status_id"))
                 dgv.Columns["rental_status_id"].Visible = false;
+            if (dgv.Columns.Contains("last_name"))
+                dgv.Columns["last_name"].Visible = false;
+            if (dgv.Columns.Contains("first_name"))
+                dgv.Columns["first_name"].Visible = false;
+            if (dgv.Columns.Contains("car_name"))
+                dgv.Columns["car_name"].Visible = false;
+            if (dgv.Columns.Contains("price_per_minute"))
+                dgv.Columns["price_per_minute"].Visible = false;
+            if (dgv.Columns.Contains("minutes"))
+                dgv.Columns["minutes"].Visible = false;
+            if (dgv.Columns.Contains("current_cost"))
+                dgv.Columns["current_cost"].Visible = false;
 
-            if (dgv.Columns.Contains("brand"))
-                dgv.Columns["brand"].HeaderText = "Марка";
-            if (dgv.Columns.Contains("model"))
-                dgv.Columns["model"].HeaderText = "Модель";
+            // Автомобиль (brand + model)
+            if (dgv.Columns.Contains("brand") && dgv.Columns.Contains("model"))
+            {
+                dgv.Columns["brand"].HeaderText = "Автомобиль";
+                dgv.Columns["model"].Visible = false;
+            }
+            else if (dgv.Columns.Contains("brand"))
+            {
+                dgv.Columns["brand"].HeaderText = "Автомобиль";
+            }
+
             if (dgv.Columns.Contains("state_number"))
                 dgv.Columns["state_number"].HeaderText = "Госномер";
             if (dgv.Columns.Contains("start_time"))
@@ -88,22 +109,32 @@ namespace Carsharing.UserControls
                 dgv.Columns["total_cost"].HeaderText = "Стоимость";
             if (dgv.Columns.Contains("rental_status_name"))
                 dgv.Columns["rental_status_name"].HeaderText = "Статус";
+
+            // Парковки
+            if (dgv.Columns.Contains("start_address"))
+                dgv.Columns["start_address"].HeaderText = "Парковка начала";
+            if (dgv.Columns.Contains("end_address"))
+                dgv.Columns["end_address"].HeaderText = "Парковка окончания";
         }
 
         private void SetupOperatorRentalsGrid(DataGridView dgv)
         {
             dgv.RowHeadersVisible = false;
             dgv.EnableHeadersVisualStyles = false;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
+            // Скрываем ID
             if (dgv.Columns.Contains("id_rental"))
                 dgv.Columns["id_rental"].Visible = false;
 
+            // Клиент
             if (dgv.Columns.Contains("client_name"))
                 dgv.Columns["client_name"].HeaderText = "Клиент";
-            if (dgv.Columns.Contains("brand"))
-                dgv.Columns["brand"].HeaderText = "Марка";
-            if (dgv.Columns.Contains("model"))
-                dgv.Columns["model"].HeaderText = "Модель";
+
+            // Автомобиль (уже объединён в car_info)
+            if (dgv.Columns.Contains("car_info"))
+                dgv.Columns["car_info"].HeaderText = "Автомобиль";
+
             if (dgv.Columns.Contains("state_number"))
                 dgv.Columns["state_number"].HeaderText = "Госномер";
             if (dgv.Columns.Contains("start_time"))
@@ -115,7 +146,9 @@ namespace Carsharing.UserControls
             if (dgv.Columns.Contains("rental_status_name"))
                 dgv.Columns["rental_status_name"].HeaderText = "Статус";
             if (dgv.Columns.Contains("start_address"))
-                dgv.Columns["start_address"].HeaderText = "Парковка";
+                dgv.Columns["start_address"].HeaderText = "Парковка начала";
+            if (dgv.Columns.Contains("end_address"))
+                dgv.Columns["end_address"].HeaderText = "Парковка окончания";
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

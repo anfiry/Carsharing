@@ -55,6 +55,24 @@ namespace Carsharing.Classes
             }
         }
 
+        public int AddParking(string city, string street, string house, string entrance = null)
+        {
+            using (var db = new DBService())
+            {
+                int addressId = Convert.ToInt32(db.ExecuteFunction(
+                    "add_address",
+                    new NpgsqlParameter("p_city", city),
+                    new NpgsqlParameter("p_street", street),
+                    new NpgsqlParameter("p_house", house),
+                    new NpgsqlParameter("p_entrance", (object)entrance ?? DBNull.Value)));
+
+                // Создаём парковку
+                return Convert.ToInt32(db.ExecuteFunction(
+                    "add_parking",
+                    new NpgsqlParameter("p_address_id", addressId),
+                    new NpgsqlParameter("p_description", "Новая парковка")));
+            }
+        }
 
         public string GetParkingAddress(int parkingId)
         {

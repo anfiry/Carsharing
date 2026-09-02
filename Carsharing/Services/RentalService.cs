@@ -1,4 +1,5 @@
 ﻿using Carsharing.Classes;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,21 @@ namespace Carsharing.Services
             return _rental.StartRental(clientId, carId, startParkingId);
         }
 
-        public decimal EndRental(int rentalId, int endParkingId)
+        public decimal EndRental(int rentalId, int endParkingId, int cardId)
         {
             decimal totalCost = _rental.EndRental(rentalId, endParkingId);
 
             int paymentId = _payment.CreatePaymentForRental(rentalId);
             _payment.ConfirmPayment(paymentId);
+
+            using (var db = new DBService())
+            {
+                db.ExecuteNonQuery(
+                    "UPDATE Payment SET card_id = @p_card_id WHERE id_payment = @p_payment_id",
+                    new NpgsqlParameter("p_card_id", cardId),
+                    new NpgsqlParameter("p_payment_id", paymentId)
+                );
+            }
 
             return totalCost;
         }

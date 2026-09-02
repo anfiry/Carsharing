@@ -1,35 +1,55 @@
 ﻿using Carsharing.Classes;
+using Carsharing.Services;
+using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Carsharing.UserControls
 {
     public partial class HomeControl : UserControl
     {
-
         private readonly Account _account;
+        private Timer timerCost;
+
         public HomeControl()
         {
             InitializeComponent();
         }
 
-        public HomeControl(Account account) :this()
+        public HomeControl(Account account) : this()
         {
             _account = account;
             LoadData();
+
+            timerCost = new Timer();
+            timerCost.Interval = 60000;
+            timerCost.Tick += TimerCost_Tick;
+            timerCost.Start();
+        }
+
+        private void TimerCost_Tick(object sender, EventArgs e)
+        {
+            if (_account.RoleId == 1)
+            {
+                int clientId = GetClientId();
+                if (clientId > 0)
+                {
+                    var rental = new Rental();
+                    var activeRental = rental.GetActiveRentalByClient(clientId);
+                    if (activeRental.Rows.Count > 0)
+                    {
+                        dgvRental.DataSource = null;
+                        dgvRental.DataSource = activeRental;
+                        SetupRentalGrid(dgvRental);
+                    }
+                }
+            }
         }
 
         private void LoadData()
         {
             lblWelcome.Text = $"Добро пожаловать, {_account.Login}";
-
 
             if (_account.RoleId == 1)
             {
@@ -41,95 +61,107 @@ namespace Carsharing.UserControls
             }
         }
 
-
         private int GetClientId()
         {
-            var client = new Client();
-            var clients = client.GetAllClients();
-
-            foreach (DataRow row in clients.Rows)
+            try
             {
-                if (row["login"].ToString() == _account.Login)
+                using (var db = new DBService())
                 {
-                    return Convert.ToInt32(row["id_client"]);
+                    var result = db.ExecuteQuery(
+                        "SELECT id_client FROM client WHERE account_id = @p_account_id",
+                        new NpgsqlParameter("p_account_id", _account.Id)
+                    );
+                    if (result.Rows.Count > 0)
+                        return Convert.ToInt32(result.Rows[0][0]);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка получения client_id: {ex.Message}", "Ошибка");
             }
             return 0;
         }
 
-
-        
         private void LoadClientData()
         {
-            int clientId = GetClientId();
-
-            var rental = new Rental();
-            var activeRental = rental.GetActiveRentalByClient(clientId);
-
-            if (activeRental.Rows.Count > 0) 
+            try
             {
-                lblRentalInfo.Text = "Активная аренда:";
-                dgvRental.Visible = true;
-                dgvRental.DataSource = activeRental;
-                SetupRentalGrid(dgvRental);
-            }
-            else
-            {
-                lblRentalInfo.Text = "Нет активной аренды";
-                dgvRental.Visible = false;
-                dgvRental.DataSource = null;
-            }
+                int clientId = GetClientId();
+                if (clientId == 0) return;
 
-
-
-            var fine = new Fine();
-            var unpaidFines = fine.GetUnpaidFinesByClient(clientId);
-
-            if (unpaidFines.Rows.Count > 0)
-            {
-                lblFines.Text = "Неоплаченные штрафы:";
                 lblFines.Visible = true;
+                lblFines.ForeColor = System.Drawing.Color.Black;
                 lblFines.BringToFront();
-                dgvFines.Visible = true;
-                dgvFines.DataSource = unpaidFines;
-                SetupFinesGrid(dgvFines);
+
+                var rental = new Rental();
+                var activeRental = rental.GetActiveRentalByClient(clientId);
+
+                if (activeRental.Rows.Count > 0)
+                {
+                    lblRentalInfo.Text = "Активная аренда:";
+                    dgvRental.Visible = true;
+                    dgvRental.DataSource = activeRental;
+                    SetupRentalGrid(dgvRental);
+                }
+                else
+                {
+                    lblRentalInfo.Text = "Нет активной аренды";
+                    dgvRental.Visible = false;
+                    dgvRental.DataSource = null;
+                }
+
+                var fine = new Fine();
+                var unpaidFines = fine.GetUnpaidFinesByClient(clientId);
+
+                if (unpaidFines.Rows.Count > 0)
+                {
+                    lblFines.Text = "Неоплаченные штрафы:";
+                    lblFines.Visible = true;
+                    dgvFines.Visible = true;
+                    dgvFines.DataSource = unpaidFines;
+                    SetupFinesGrid(dgvFines);
+                }
+                else
+                {
+                    lblFines.Text = "Нет неоплаченных штрафов";
+                    lblFines.Visible = true;
+                    dgvFines.Visible = false;
+                    dgvFines.DataSource = null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                lblFines.Text = "Нет неоплаченных штрафов";
-                lblFines.Visible = true;
-                lblFines.BringToFront();
-                dgvFines.Visible = false;
-                dgvFines.DataSource = null;
+                MessageBox.Show($"Ошибка загрузки данных клиента: {ex.Message}", "Ошибка");
             }
         }
 
-
-
         private void LoadOperatorData()
         {
-            var rental = new Rental();
-            var activeRentals = rental.GetActiveRentals();
-
-            lblFines.Visible = false;
-            dgvFines.Visible = false;
-
-
-            if (activeRentals.Rows.Count > 0)
+            try
             {
-                lblRentalInfo.Text = "Активные аренды:";
-                dgvRental.Visible = true;
-                dgvRental.DataSource = activeRentals;
-                SetupOperatorRentalGrid(dgvRental);
+                var rental = new Rental();
+                var activeRentals = rental.GetActiveRentals();
 
+                lblFines.Visible = false;
+                dgvFines.Visible = false;
+
+                if (activeRentals.Rows.Count > 0)
+                {
+                    lblRentalInfo.Text = "Активные аренды:";
+                    dgvRental.Visible = true;
+                    dgvRental.DataSource = activeRentals;
+                    SetupOperatorRentalGrid(dgvRental);
+                }
+                else
+                {
+                    lblRentalInfo.Text = "Нет активных аренд";
+                    dgvRental.Visible = false;
+                    dgvRental.DataSource = null;
+                }
             }
-
-            else
+            catch (Exception ex)
             {
-                lblRentalInfo.Text = "Нет активных аренды";
-                dgvRental.Visible = false;
-                dgvRental.DataSource = null;
-                
+                MessageBox.Show($"Ошибка загрузки данных оператора: {ex.Message}", "Ошибка");
             }
         }
 
@@ -152,14 +184,14 @@ namespace Carsharing.UserControls
             if (dgv.Columns.Contains("status"))
                 dgv.Columns["status"].HeaderText = "Статус";
             if (dgv.Columns.Contains("amount"))
-                dgv.Columns["amount"].HeaderText = "Сумма";               
+                dgv.Columns["amount"].HeaderText = "Сумма";
         }
-
 
         private void SetupRentalGrid(DataGridView dgv)
         {
             dgv.RowHeadersVisible = false;
             dgv.EnableHeadersVisualStyles = false;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             if (dgv.Columns.Contains("id_rental"))
                 dgv.Columns["id_rental"].Visible = false;
@@ -173,6 +205,28 @@ namespace Carsharing.UserControls
                 dgv.Columns["start_parking_id"].Visible = false;
             if (dgv.Columns.Contains("end_parking_id"))
                 dgv.Columns["end_parking_id"].Visible = false;
+            if (dgv.Columns.Contains("id_client"))
+                dgv.Columns["id_client"].Visible = false;
+            if (dgv.Columns.Contains("last_name"))
+                dgv.Columns["last_name"].Visible = false;
+            if (dgv.Columns.Contains("first_name"))
+                dgv.Columns["first_name"].Visible = false;
+            if (dgv.Columns.Contains("brand"))
+                dgv.Columns["brand"].Visible = false;
+            if (dgv.Columns.Contains("model"))
+                dgv.Columns["model"].Visible = false;
+            if (dgv.Columns.Contains("price_per_minute"))
+                dgv.Columns["price_per_minute"].Visible = false;
+            if (dgv.Columns.Contains("end_time"))
+                dgv.Columns["end_time"].Visible = false;
+            if (dgv.Columns.Contains("total_cost"))
+                dgv.Columns["total_cost"].Visible = false;
+            if (dgv.Columns.Contains("end_address"))
+                dgv.Columns["end_address"].Visible = false;
+            if (dgv.Columns.Contains("minutes"))
+                dgv.Columns["minutes"].Visible = false;
+            if (dgv.Columns.Contains("rental_status_name"))
+                dgv.Columns["rental_status_name"].Visible = false;
 
             if (dgv.Columns.Contains("car_name"))
                 dgv.Columns["car_name"].HeaderText = "Автомобиль";
@@ -180,16 +234,14 @@ namespace Carsharing.UserControls
                 dgv.Columns["state_number"].HeaderText = "Госномер";
             if (dgv.Columns.Contains("start_time"))
                 dgv.Columns["start_time"].HeaderText = "Время начала";
-            if (dgv.Columns.Contains("end_time"))
-                dgv.Columns["end_time"].HeaderText = "Время окончания";
-            if (dgv.Columns.Contains("total_cost"))
-                dgv.Columns["total_cost"].HeaderText = "Стоимость";
-            if (dgv.Columns.Contains("minutes"))
-                dgv.Columns["minutes"].HeaderText = "Минут";
+            if (dgv.Columns.Contains("start_address"))
+                dgv.Columns["start_address"].HeaderText = "Парковка начала";
             if (dgv.Columns.Contains("current_cost"))
+            {
                 dgv.Columns["current_cost"].HeaderText = "Текущая стоимость";
-            if (dgv.Columns.Contains("rental_status_name"))
-                dgv.Columns["rental_status_name"].HeaderText = "Статус";
+                dgv.Columns["current_cost"].DefaultCellStyle.Format = "F2";
+                dgv.Columns["current_cost"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
         }
 
         private void SetupOperatorRentalGrid(DataGridView dgv)

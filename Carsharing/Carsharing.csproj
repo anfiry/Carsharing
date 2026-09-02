@@ -113,6 +113,7 @@
     <Compile Include="Classes\Account.cs" />
     <Compile Include="Classes\Blocklist.cs" />
     <Compile Include="Classes\Car.cs" />
+    <Compile Include="Classes\Card.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\Fine .cs" />
     <Compile Include="Classes\Operator.cs" />
@@ -124,6 +125,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClientRentalsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClientRentalsForm.Designer.cs">
+      <DependentUpon>ClientRentalsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
@@ -173,6 +180,12 @@
     <Compile Include="UserControls\ManageClientsControl.Designer.cs">
       <DependentUpon>ManageClientsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ManageFinesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ManageFinesControl.Designer.cs">
+      <DependentUpon>ManageFinesControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ProfileControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -191,6 +204,9 @@
     <Compile Include="UserControls\RentControl.Designer.cs">
       <DependentUpon>RentControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\ClientRentalsForm.resx">
+      <DependentUpon>ClientRentalsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -209,14 +225,29 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\FinesControl.resx">
+      <DependentUpon>FinesControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HomeControl.resx">
       <DependentUpon>HomeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ManageCarsControl.resx">
+      <DependentUpon>ManageCarsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ManageClientsControl.resx">
+      <DependentUpon>ManageClientsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ManageFinesControl.resx">
+      <DependentUpon>ManageFinesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ProfileControl.resx">
       <DependentUpon>ProfileControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RentalsControl.resx">
       <DependentUpon>RentalsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RentControl.resx">
+      <DependentUpon>RentControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

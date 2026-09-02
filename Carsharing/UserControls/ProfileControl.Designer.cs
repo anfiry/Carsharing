@@ -45,6 +45,12 @@
             this.txtLogin = new System.Windows.Forms.TextBox();
             this.lblLogin = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.txtCardExpiry = new System.Windows.Forms.TextBox();
+            this.lblCardExpiry = new System.Windows.Forms.Label();
+            this.txtCardCVV = new System.Windows.Forms.TextBox();
+            this.lblCardCVV = new System.Windows.Forms.Label();
+            this.txtCardNumber = new System.Windows.Forms.TextBox();
+            this.lblCardNumber = new System.Windows.Forms.Label();
             this.panelWelcome.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -215,11 +221,78 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // txtCardExpiry
+            // 
+            this.txtCardExpiry.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtCardExpiry.Location = new System.Drawing.Point(674, 230);
+            this.txtCardExpiry.MaxLength = 5;
+            this.txtCardExpiry.Name = "txtCardExpiry";
+            this.txtCardExpiry.Size = new System.Drawing.Size(317, 27);
+            this.txtCardExpiry.TabIndex = 96;
+            // 
+            // lblCardExpiry
+            // 
+            this.lblCardExpiry.AutoSize = true;
+            this.lblCardExpiry.BackColor = System.Drawing.Color.White;
+            this.lblCardExpiry.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCardExpiry.Location = new System.Drawing.Point(520, 235);
+            this.lblCardExpiry.Name = "lblCardExpiry";
+            this.lblCardExpiry.Size = new System.Drawing.Size(130, 22);
+            this.lblCardExpiry.TabIndex = 95;
+            this.lblCardExpiry.Text = "Срок (ММ/ГГ)";
+            // 
+            // txtCardCVV
+            // 
+            this.txtCardCVV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtCardCVV.Location = new System.Drawing.Point(674, 290);
+            this.txtCardCVV.MaxLength = 3;
+            this.txtCardCVV.Name = "txtCardCVV";
+            this.txtCardCVV.PasswordChar = '*';
+            this.txtCardCVV.Size = new System.Drawing.Size(317, 27);
+            this.txtCardCVV.TabIndex = 94;
+            // 
+            // lblCardCVV
+            // 
+            this.lblCardCVV.AutoSize = true;
+            this.lblCardCVV.BackColor = System.Drawing.Color.White;
+            this.lblCardCVV.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCardCVV.Location = new System.Drawing.Point(595, 296);
+            this.lblCardCVV.Name = "lblCardCVV";
+            this.lblCardCVV.Size = new System.Drawing.Size(49, 22);
+            this.lblCardCVV.TabIndex = 93;
+            this.lblCardCVV.Text = "CVV";
+            // 
+            // txtCardNumber
+            // 
+            this.txtCardNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtCardNumber.Location = new System.Drawing.Point(674, 171);
+            this.txtCardNumber.MaxLength = 19;
+            this.txtCardNumber.Name = "txtCardNumber";
+            this.txtCardNumber.Size = new System.Drawing.Size(317, 27);
+            this.txtCardNumber.TabIndex = 92;
+            // 
+            // lblCardNumber
+            // 
+            this.lblCardNumber.AutoSize = true;
+            this.lblCardNumber.BackColor = System.Drawing.Color.White;
+            this.lblCardNumber.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCardNumber.Location = new System.Drawing.Point(526, 173);
+            this.lblCardNumber.Name = "lblCardNumber";
+            this.lblCardNumber.Size = new System.Drawing.Size(124, 22);
+            this.lblCardNumber.TabIndex = 91;
+            this.lblCardNumber.Text = "Номер карты";
+            // 
             // ProfileControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.txtCardExpiry);
+            this.Controls.Add(this.lblCardExpiry);
+            this.Controls.Add(this.txtCardCVV);
+            this.Controls.Add(this.lblCardCVV);
+            this.Controls.Add(this.txtCardNumber);
+            this.Controls.Add(this.lblCardNumber);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.lblLogin);
@@ -264,5 +337,11 @@
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.Label lblLogin;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox txtCardExpiry;
+        private System.Windows.Forms.Label lblCardExpiry;
+        private System.Windows.Forms.TextBox txtCardCVV;
+        private System.Windows.Forms.Label lblCardCVV;
+        private System.Windows.Forms.TextBox txtCardNumber;
+        private System.Windows.Forms.Label lblCardNumber;
     }
 }

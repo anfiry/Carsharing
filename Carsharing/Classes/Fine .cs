@@ -55,13 +55,13 @@ namespace Carsharing.Classes
         }
 
 
-        public DataTable GetUnpaidFines()
+        /*public DataTable GetUnpaidFines()
         {
             using (var db = new DBService())
             {
                 return db.ExecuteQuery("SELECT * FROM unpaid_fines");
             }
-        }
+        }*/
 
 
         public DataTable GetUnpaidFinesByClient(int clientId)

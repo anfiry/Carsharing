@@ -118,6 +118,19 @@ namespace Carsharing.Classes
             }
         }
 
+
+        public DataTable GetRentalStatus(int rentalId)
+        {
+            using (var db = new DBService())
+            {
+                return db.ExecuteQuery(
+                    "SELECT rs.rental_status_name FROM rental r " +
+                    "JOIN rental_status rs ON r.rental_status_id = rs.id_rental_status " +
+                    "WHERE r.id_rental = @p_rental_id",
+                    new NpgsqlParameter("p_rental_id", rentalId));
+            }
+        }
+
         public DataTable GetAllRentals()
         {
             using (var db = new DBService())

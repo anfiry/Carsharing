@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Carsharing.Classes;
+using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Carsharing.Classes;
-using System.Data;
-using Npgsql;
+using System.Windows.Forms;
 
 namespace Carsharing.Services
 {
@@ -46,15 +47,19 @@ namespace Carsharing.Services
             using (var db = new DBService())
             {
                 var result = db.ExecuteQuery(
-                    "SELECT a.id_account, a.login, a.account_role_id, ar.account_role_name FROM Account a JOIN Account_role ar ON a.account_role_id = ar.id_account_role WHERE a.login = @p_login",
+                    "SELECT a.id_account, a.login, a.pass, a.account_role_id, ar.account_role_name FROM Account a JOIN Account_role ar ON a.account_role_id = ar.id_account_role WHERE a.login = @p_login",
                     new NpgsqlParameter("p_login", login)
-                    );
+                );
+
+                // Отладка
+                MessageBox.Show($"Найдено записей: {result.Rows.Count} для логина: {login}", "Отладка GetUserByLogin");
 
                 if (result.Rows.Count == 0)
+                {
                     return null;
+                }
 
                 var row = result.Rows[0];
-
                 return new Account
                 {
                     Id = Convert.ToInt32(row["id_account"]),
@@ -62,7 +67,6 @@ namespace Carsharing.Services
                     RoleId = Convert.ToInt32(row["account_role_id"]),
                     Rolename = row["account_role_name"].ToString()
                 };
-
             }
         }
 

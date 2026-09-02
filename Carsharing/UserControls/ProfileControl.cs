@@ -1,19 +1,13 @@
 ﻿using Carsharing.Classes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Carsharing.UserControls
 {
     public partial class ProfileControl : UserControl
     {
-
         private readonly Account _account;
 
         public ProfileControl(Account account)
@@ -22,7 +16,6 @@ namespace Carsharing.UserControls
             _account = account;
             LoadProfile();
         }
-
 
         private void LoadProfile()
         {
@@ -38,7 +31,6 @@ namespace Carsharing.UserControls
                 LoadOperatorProfile();
             }
         }
-
 
         private int GetClientId()
         {
@@ -72,7 +64,13 @@ namespace Carsharing.UserControls
 
         private void LoadClientProfile()
         {
+            txtBirthDate.Visible = true;
+            txtExperience.Visible = true;
+            lblBirthDate.Visible = true;
+            lblExperience.Visible = true;
+
             int clientId = GetClientId();
+
             var client = new Client();
             var info = client.GetInfo(clientId);
 
@@ -88,13 +86,11 @@ namespace Carsharing.UserControls
 
                 txtBirthDate.ReadOnly = true;
                 txtExperience.ReadOnly = true;
-                txtBirthDate.Visible = true;
-                txtExperience.Visible = true;
-                lblBirthDate.Visible = true;
-                lblExperience.Visible = true;
                 txtBirthDate.BackColor = SystemColors.Control;
                 txtExperience.BackColor = SystemColors.Control;
             }
+
+            LoadCardInfo(clientId);
 
             txtLastName.ReadOnly = false;
             txtFirstName.ReadOnly = false;
@@ -102,9 +98,13 @@ namespace Carsharing.UserControls
             txtPhone.ReadOnly = false;
         }
 
-
         private void LoadOperatorProfile()
         {
+            txtBirthDate.Visible = false;
+            txtExperience.Visible = false;
+            lblBirthDate.Visible = false;
+            lblExperience.Visible = false;
+
             int operatorId = GetOperatorId();
             var op = new Operator();
             var info = op.GetInfo(operatorId);
@@ -116,12 +116,9 @@ namespace Carsharing.UserControls
                 txtFirstName.Text = row["first_name"].ToString();
                 txtPatronymic.Text = row["patronymic"].ToString();
                 txtPhone.Text = row["phone_number"].ToString();
-
-                txtBirthDate.Visible = false;
-                txtExperience.Visible = false;
-                lblBirthDate.Visible = false;
-                lblExperience.Visible = false;
             }
+
+            HideCardFields();
 
             txtLastName.ReadOnly = false;
             txtFirstName.ReadOnly = false;
@@ -129,68 +126,52 @@ namespace Carsharing.UserControls
             txtPhone.ReadOnly = false;
         }
 
-
-        private bool ValidateFields()
+        private void LoadCardInfo(int clientId)
         {
-            if (string.IsNullOrWhiteSpace(txtLastName.Text))
+            try
             {
-                MessageBox.Show("Введите фамилию!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLastName.Focus();
-                return false;
-            }
-            if (!IsOnlyLetters(txtLastName.Text))
-            {
-                MessageBox.Show("Фамилия должна содержать только буквы!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtLastName.Focus();
-                return false;
-            }
+                var card = new Card();
+                var data = card.GetCardByClient(clientId);
 
-            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
-            {
-                MessageBox.Show("Введите имя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtFirstName.Focus();
-                return false;
-            }
-            if (!IsOnlyLetters(txtFirstName.Text))
-            {
-                MessageBox.Show("Имя должно содержать только буквы!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtFirstName.Focus();
-                return false;
-            }
-
-            if (!string.IsNullOrWhiteSpace(txtPatronymic.Text))
-            {
-                if (!IsOnlyLetters(txtPatronymic.Text))
+                if (data.Rows.Count > 0)
                 {
-                    MessageBox.Show("Отчество должно содержать только буквы!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtPatronymic.Focus();
-                    return false;
+                    txtCardNumber.Text = data.Rows[0]["card_number"].ToString();
+                    txtCardExpiry.Text = data.Rows[0]["expiry_date"].ToString();
+                    txtCardCVV.Text = data.Rows[0]["cvv"].ToString();
                 }
-            }
-
-            // Телефон
-            string phone = txtPhone.Text.Trim();
-
-            if (phone.Length != 12 || !phone.StartsWith("+7"))
-            {
-                MessageBox.Show("Введите номер телефона в формате +7XXXXXXXXXX (12 символов)!",
-                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPhone.Focus();
-                return false;
-            }
-
-            // Проверка: после +7 только цифры
-            for (int i = 2; i < phone.Length; i++)
-            {
-                if (!char.IsDigit(phone[i]))
+                else
                 {
-                    MessageBox.Show("Телефон должен содержать только цифры после +7!",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtPhone.Focus();
-                    return false;
+                    txtCardNumber.Clear();
+                    txtCardExpiry.Clear();
+                    txtCardCVV.Clear();
                 }
+
+                ShowCardFields();
             }
-            return true;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки карты: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private void ShowCardFields()
+        {
+            lblCardNumber.Visible = true;
+            txtCardNumber.Visible = true;
+            lblCardExpiry.Visible = true;
+            txtCardExpiry.Visible = true;
+            lblCardCVV.Visible = true;
+            txtCardCVV.Visible = true;
+        }
+
+        private void HideCardFields()
+        {
+            lblCardNumber.Visible = false;
+            txtCardNumber.Visible = false;
+            lblCardExpiry.Visible = false;
+            txtCardExpiry.Visible = false;
+            lblCardCVV.Visible = false;
+            txtCardCVV.Visible = false;
         }
 
         private bool IsOnlyLetters(string text)
@@ -200,6 +181,135 @@ namespace Carsharing.UserControls
                 if (!char.IsLetter(c) && c != ' ' && c != '-')
                     return false;
             }
+            return true;
+        }
+
+        private bool IsOnlyDigits(string text)
+        {
+            foreach (char c in text)
+            {
+                if (!char.IsDigit(c))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool ValidateFields()
+        {
+            // Фамилия
+            if (string.IsNullOrWhiteSpace(txtLastName.Text))
+            {
+                MessageBox.Show("Введите фамилию!", "Ошибка");
+                txtLastName.Focus();
+                return false;
+            }
+            if (!IsOnlyLetters(txtLastName.Text))
+            {
+                MessageBox.Show("Фамилия должна содержать только буквы, пробелы и дефисы!", "Ошибка");
+                txtLastName.Focus();
+                return false;
+            }
+
+            // Имя
+            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
+            {
+                MessageBox.Show("Введите имя!", "Ошибка");
+                txtFirstName.Focus();
+                return false;
+            }
+            if (!IsOnlyLetters(txtFirstName.Text))
+            {
+                MessageBox.Show("Имя должно содержать только буквы, пробелы и дефисы!", "Ошибка");
+                txtFirstName.Focus();
+                return false;
+            }
+
+            // Отчество (если не пустое)
+            if (!string.IsNullOrWhiteSpace(txtPatronymic.Text))
+            {
+                if (!IsOnlyLetters(txtPatronymic.Text))
+                {
+                    MessageBox.Show("Отчество должно содержать только буквы, пробелы и дефисы!", "Ошибка");
+                    txtPatronymic.Focus();
+                    return false;
+                }
+            }
+
+            // Телефон
+            string phone = txtPhone.Text.Trim();
+            if (phone.Length != 12 || !phone.StartsWith("+7"))
+            {
+                MessageBox.Show("Введите номер телефона в формате +7XXXXXXXXXX (12 символов)!", "Ошибка");
+                txtPhone.Focus();
+                return false;
+            }
+            for (int i = 2; i < phone.Length; i++)
+            {
+                if (!char.IsDigit(phone[i]))
+                {
+                    MessageBox.Show("Телефон должен содержать только цифры после +7!", "Ошибка");
+                    txtPhone.Focus();
+                    return false;
+                }
+            }
+
+            // Карта (если заполнена)
+            string cardNumber = txtCardNumber.Text.Replace(" ", "").Replace("-", "");
+            string expiry = txtCardExpiry.Text;
+            string cvv = txtCardCVV.Text;
+
+            // Если хоть одно поле карты заполнено — проверяем все
+            if (!string.IsNullOrWhiteSpace(cardNumber) || !string.IsNullOrWhiteSpace(expiry) || !string.IsNullOrWhiteSpace(cvv))
+            {
+                // Номер карты — только цифры, 16 символов
+                if (cardNumber.Length != 16 || !IsOnlyDigits(cardNumber))
+                {
+                    MessageBox.Show("Введите корректный номер карты (16 цифр)!", "Ошибка");
+                    txtCardNumber.Focus();
+                    txtCardNumber.SelectAll();
+                    return false;
+                }
+
+                // Срок — формат ММ/ГГ
+                if (expiry.Length != 5 || !expiry.Contains("/"))
+                {
+                    MessageBox.Show("Введите срок действия в формате ММ/ГГ!", "Ошибка");
+                    txtCardExpiry.Focus();
+                    txtCardExpiry.SelectAll();
+                    return false;
+                }
+
+                // Проверка, что месяц и год — цифры
+                string[] parts = expiry.Split('/');
+                if (parts.Length != 2 || parts[0].Length != 2 || parts[1].Length != 2 ||
+                    !IsOnlyDigits(parts[0]) || !IsOnlyDigits(parts[1]))
+                {
+                    MessageBox.Show("Введите срок действия в формате ММ/ГГ (цифры)!", "Ошибка");
+                    txtCardExpiry.Focus();
+                    txtCardExpiry.SelectAll();
+                    return false;
+                }
+
+                int month = int.Parse(parts[0]);
+                int year = int.Parse(parts[1]);
+                if (month < 1 || month > 12)
+                {
+                    MessageBox.Show("Введите корректный месяц (01-12)!", "Ошибка");
+                    txtCardExpiry.Focus();
+                    txtCardExpiry.SelectAll();
+                    return false;
+                }
+
+                // CVV — только цифры, 3 символа
+                if (cvv.Length != 3 || !IsOnlyDigits(cvv))
+                {
+                    MessageBox.Show("Введите корректный CVV (3 цифры)!", "Ошибка");
+                    txtCardCVV.Focus();
+                    txtCardCVV.SelectAll();
+                    return false;
+                }
+            }
+
             return true;
         }
 
@@ -213,6 +323,7 @@ namespace Carsharing.UserControls
                 if (_account.RoleId == 1)
                 {
                     int clientId = GetClientId();
+
                     var client = new Client();
                     client.UpdateProfile(
                         clientId,
@@ -221,7 +332,28 @@ namespace Carsharing.UserControls
                         txtPatronymic.Text,
                         txtPhone.Text
                     );
-                    MessageBox.Show("Профиль обновлён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var card = new Card();
+                    var data = card.GetCardByClient(clientId);
+
+                    string cardNumber = txtCardNumber.Text.Replace(" ", "").Replace("-", "");
+                    string expiry = txtCardExpiry.Text;
+                    string cvv = txtCardCVV.Text;
+
+                    if (!string.IsNullOrWhiteSpace(cardNumber) && !string.IsNullOrWhiteSpace(expiry) && !string.IsNullOrWhiteSpace(cvv))
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+                            int cardId = Convert.ToInt32(data.Rows[0]["id_card"]);
+                            card.UpdateCard(cardId, cardNumber, expiry, cvv);
+                        }
+                        else
+                        {
+                            card.SaveCard(clientId, cardNumber, expiry, cvv);
+                        }
+                    }
+
+                    MessageBox.Show("Профиль обновлён!", "Успех");
                 }
                 else if (_account.RoleId == 2)
                 {
@@ -234,12 +366,12 @@ namespace Carsharing.UserControls
                         txtPatronymic.Text,
                         txtPhone.Text
                     );
-                    MessageBox.Show("Профиль обновлён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Профиль обновлён!", "Успех");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
             }
         }
     }

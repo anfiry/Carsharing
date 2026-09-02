@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnFines2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnProfile = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
@@ -46,6 +47,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            this.panelMenu.Controls.Add(this.btnFines2);
             this.panelMenu.Controls.Add(this.panel1);
             this.panelMenu.Controls.Add(this.btnManageClients);
             this.panelMenu.Controls.Add(this.btnManageCars);
@@ -58,6 +60,17 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(294, 741);
             this.panelMenu.TabIndex = 1;
+            // 
+            // btnFines2
+            // 
+            this.btnFines2.Font = new System.Drawing.Font("Century", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnFines2.Location = new System.Drawing.Point(30, 363);
+            this.btnFines2.Name = "btnFines2";
+            this.btnFines2.Size = new System.Drawing.Size(234, 50);
+            this.btnFines2.TabIndex = 11;
+            this.btnFines2.Text = "Штрафы";
+            this.btnFines2.UseVisualStyleBackColor = true;
+            this.btnFines2.Click += new System.EventHandler(this.btnFines2_Click);
             // 
             // panel1
             // 
@@ -194,5 +207,6 @@
         private System.Windows.Forms.Button btnManageCars;
         private System.Windows.Forms.Button btnManageClients;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnFines2;
     }
 }

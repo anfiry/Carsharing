@@ -65,7 +65,25 @@ namespace Carsharing.Classes
                 db.ExecuteFunction("update_car", parameters);
             }
         }
+        public int AddBrand(string brandName)
+        {
+            using (var db = new DBService())
+            {
+                return Convert.ToInt32(db.ExecuteFunction(
+                    "add_brand",
+                    new NpgsqlParameter("p_brand", brandName)));
+            }
+        }
 
+        public int AddModel(string modelName)
+        {
+            using (var db = new DBService())
+            {
+                return Convert.ToInt32(db.ExecuteFunction(
+                    "add_model",
+                    new NpgsqlParameter("p_model", modelName)));
+            }
+        }
 
         public void DeleteCar( int idCar)
         {
@@ -90,7 +108,15 @@ namespace Carsharing.Classes
             }
         }
 
-
+        public DataTable GetModelsByBrand(string brand)
+        {
+            using (var db = new DBService())
+            {
+                return db.ExecuteQuery(
+                    "SELECT * FROM get_models_by_brand(@p_brand)",
+                    new NpgsqlParameter("p_brand", brand));
+            }
+        }
 
         public DataTable GetAllCars()
         {
@@ -221,13 +247,11 @@ namespace Carsharing.Classes
         }
 
 
-        public DataTable GetModelsByBrand(string brand)
+        public DataTable GetAllModels()
         {
             using (var db = new DBService())
             {
-                return db.ExecuteQuery(
-                    "SELECT DISTINCT model FROM car WHERE brand = @p_brand ORDER BY model",
-                    new NpgsqlParameter("p_brand", brand));
+                return db.ExecuteQuery("SELECT DISTINCT model FROM car ORDER BY model");
             }
         }
     }

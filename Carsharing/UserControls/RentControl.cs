@@ -30,6 +30,7 @@ namespace Carsharing.UserControls
 
             progressBar.Style = ProgressBarStyle.Marquee;
             progressBar.Visible = false;
+            labelchoose.Visible = true;
 
             LoadAvailableCars();
             LoadParkings();
@@ -149,15 +150,16 @@ namespace Carsharing.UserControls
                     _rentalStartTime = Convert.ToDateTime(row["start_time"]);
                     _pricePerMinute = Convert.ToDecimal(row["price_per_minute"]);
 
-                    string carName = row["car_name"].ToString();
+                    string carName = row["car_info"].ToString();
                     string stateNumber = row["state_number"].ToString();
 
-                    lblActiveRental.Text = $"🚗 Активная аренда: {carName} ({stateNumber})";
-                    lblStartTime.Text = $"⏱ Начало: {_rentalStartTime:dd.MM.yyyy HH:mm}";
+                    lblActiveRental.Text = $"Активная аренда: {carName} ({stateNumber})";
+                    lblStartTime.Text = $"Начало: {_rentalStartTime:dd.MM.yyyy HH:mm}";
 
-                    btnAction.Text = "🏁 Завершить аренду";
+                    btnAction.Text = "Завершить аренду";
                     btnAction.Enabled = true;
                     dgvCars.Visible = false;
+                    labelchoose.Visible = false;
                     btnAction.BackColor = System.Drawing.Color.LightCoral;
 
                     listParkings.Visible = true;
@@ -175,10 +177,11 @@ namespace Carsharing.UserControls
                 else
                 {
                     lblActiveRental.Text = "Нет активной аренды";
-                    btnAction.Text = "🚗 Начать аренду";
+                    btnAction.Text = "Начать аренду";
                     btnAction.Enabled = false;
                     _activeRentalId = 0;
 
+                    labelchoose.Visible = true;
                     dgvCars.Visible = true;
                     dgvCars.Enabled = true;
                     btnAction.BackColor = System.Drawing.Color.LightGreen;
@@ -204,9 +207,14 @@ namespace Carsharing.UserControls
             if (_activeRentalId > 0)
             {
                 TimeSpan elapsed = DateTime.Now - _rentalStartTime;
-                decimal minutes = (decimal)elapsed.TotalMinutes;
-                decimal cost = minutes * _pricePerMinute;
-                lblCurrentCost.Text = $"💰 Текущая стоимость: {cost:F2} ₽";
+                int seconds = (int)elapsed.TotalSeconds;  
+
+                decimal pricePerSecond = _pricePerMinute / 60;  
+                decimal cost = seconds * pricePerSecond;    
+
+                decimal roundedCost = Math.Round(cost, 0, MidpointRounding.AwayFromZero); 
+
+                lblCurrentCost.Text = $"Текущая стоимость: {roundedCost:F0} ₽";
             }
         }
 
@@ -245,11 +253,41 @@ namespace Carsharing.UserControls
                 EndRental();
         }
 
+        private bool IsCardValid(string cardNumber, string expiry, string cvv)
+        {
+            string cleanNumber = cardNumber.Replace(" ", "").Replace("-", "");
+            if (cleanNumber.Length != 16 || !long.TryParse(cleanNumber, out _))
+                return false;
+
+            if (expiry.Length != 5 || !expiry.Contains("/"))
+                return false;
+
+            string[] parts = expiry.Split('/');
+            if (parts.Length != 2 || parts[0].Length != 2 || parts[1].Length != 2)
+                return false;
+
+            if (!int.TryParse(parts[0], out int month) || !int.TryParse(parts[1], out int year))
+                return false;
+
+            if (month < 1 || month > 12)
+                return false;
+
+            int currentYear = DateTime.Now.Year % 100;
+            int currentMonth = DateTime.Now.Month;
+            if (year < currentYear || (year == currentMonth && month < currentMonth))
+                return false;
+
+            if (cvv.Length != 3 || !int.TryParse(cvv, out _))
+                return false;
+
+            return true;
+        }
+
         private void StartRental()
         {
             if (_selectedCarId == 0)
             {
-                MessageBox.Show("Выберите машину!");
+                MessageBox.Show("Выберите машину!", "Ошибка");
                 return;
             }
 
@@ -258,7 +296,33 @@ namespace Carsharing.UserControls
                 int clientId = GetClientId();
                 if (clientId == 0)
                 {
-                    MessageBox.Show("Клиент не найден!");
+                    MessageBox.Show("Клиент не найден!", "Ошибка");
+                    return;
+                }
+
+                var blocklist = new Blocklist();
+                if (blocklist.IsClientBlocked(clientId))
+                {
+                    MessageBox.Show("Вы заблокированы! Аренда невозможна.", "Доступ запрещён");
+                    return;
+                }
+
+                var card = new Card();
+                var cards = card.GetCardByClient(clientId);
+
+                if (cards.Rows.Count == 0)
+                {
+                    MessageBox.Show("У вас не привязана карта!\nДобавьте карту в профиле.", "Ошибка");
+                    return;
+                }
+
+                string cardNumber = cards.Rows[0]["card_number"].ToString();
+                string expiry = cards.Rows[0]["expiry_date"].ToString();
+                string cvv = cards.Rows[0]["cvv"].ToString();
+
+                if (!IsCardValid(cardNumber, expiry, cvv))
+                {
+                    MessageBox.Show("Ваша карта недействительна!\nПроверьте данные карты в профиле.", "Ошибка");
                     return;
                 }
 
@@ -275,21 +339,23 @@ namespace Carsharing.UserControls
 
                 if (parkingId == 0)
                 {
-                    MessageBox.Show("Машина не привязана к парковке!");
+                    MessageBox.Show("Машина не привязана к парковке!", "Ошибка");
                     return;
                 }
 
                 var rental = new Rental();
                 rental.StartRental(clientId, _selectedCarId, parkingId);
 
-                MessageBox.Show("✅ Аренда начата!", "Успех");
+                MessageBox.Show("Аренда начата!", "Успех");
                 LoadAvailableCars();
                 LoadParkings();
                 CheckActiveRental();
+
+                labelchoose.Visible = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
@@ -310,7 +376,7 @@ namespace Carsharing.UserControls
 
             if (Convert.ToInt32(cmbParking.SelectedValue) == -1)
             {
-                MessageBox.Show("Выберите парковку из списка!", "Ошибка");
+                MessageBox.Show("Встаньте на одной из разрешенных парковок!", "Ошибка");
                 cmbParking.SelectedIndex = -1;
                 return;
             }
@@ -333,12 +399,13 @@ namespace Carsharing.UserControls
                 btnAction.Enabled = false;
                 btnAction.Text = "⏳ Обработка...";
                 progressBar.Visible = true;
+
                 timerProcessing.Start();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Ошибка: {ex.Message}");
-                btnAction.Text = "🏁 Завершить аренду";
+                MessageBox.Show($"Ошибка: {ex.Message}");
+                btnAction.Text = "Завершить аренду";
                 btnAction.Enabled = true;
                 progressBar.Visible = false;
             }
@@ -348,13 +415,12 @@ namespace Carsharing.UserControls
         {
             timerProcessing.Stop();
             progressBar.Visible = false;
-            btnAction.Text = "🏁 Завершить аренду";
+            btnAction.Text = "Завершить аренду";
 
             try
             {
                 if (_activeRentalId == 0)
                 {
-                    //MessageBox.Show("Нет активной аренды!", "Ошибка");
                     btnAction.Enabled = true;
                     return;
                 }
@@ -375,7 +441,7 @@ namespace Carsharing.UserControls
                 var rentalService = new RentalService();
                 decimal totalCost = rentalService.EndRental(_activeRentalId, _pendingParkingId, cardId);
 
-                MessageBox.Show($"✅ Аренда завершена!\n\nСтоимость: {totalCost:F2} ₽", "Успех");
+                MessageBox.Show($"Аренда завершена!\n\nСтоимость: {totalCost:F0} ₽. Оплата прошла.", "Успех");
 
                 _activeRentalId = 0;
                 LoadAvailableCars();
@@ -390,7 +456,7 @@ namespace Carsharing.UserControls
                 {
                     message = "Аренда уже завершена или не найдена.";
                 }
-                MessageBox.Show($"❌ {message}", "Ошибка");
+                MessageBox.Show($"{message}", "Ошибка");
                 btnAction.Enabled = true;
                 progressBar.Visible = false;
                 CheckActiveRental();

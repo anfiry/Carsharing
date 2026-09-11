@@ -66,7 +66,6 @@ namespace Carsharing.Classes
                     new NpgsqlParameter("p_house", house),
                     new NpgsqlParameter("p_entrance", (object)entrance ?? DBNull.Value)));
 
-                // Создаём парковку
                 return Convert.ToInt32(db.ExecuteFunction(
                     "add_parking",
                     new NpgsqlParameter("p_address_id", addressId),

@@ -51,8 +51,7 @@ namespace Carsharing.Services
                     new NpgsqlParameter("p_login", login)
                 );
 
-                // Отладка
-                MessageBox.Show($"Найдено записей: {result.Rows.Count} для логина: {login}", "Отладка GetUserByLogin");
+
 
                 if (result.Rows.Count == 0)
                 {

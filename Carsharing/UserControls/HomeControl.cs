@@ -174,7 +174,7 @@ namespace Carsharing.UserControls
                 dgv.Columns["id_fine"].Visible = false;
 
             if (dgv.Columns.Contains("start_time"))
-                dgv.Columns["start_time"].HeaderText = "Дата аренды";
+                dgv.Columns["start_time"].HeaderText = "Дата начала аренды";
             if (dgv.Columns.Contains("car_info"))
                 dgv.Columns["car_info"].HeaderText = "Автомобиль";
             if (dgv.Columns.Contains("fine_type_name"))
@@ -235,7 +235,7 @@ namespace Carsharing.UserControls
             if (dgv.Columns.Contains("start_time"))
                 dgv.Columns["start_time"].HeaderText = "Время начала";
             if (dgv.Columns.Contains("start_address"))
-                dgv.Columns["start_address"].HeaderText = "Парковка начала";
+                dgv.Columns["start_address"].HeaderText = "Начальная парковка";
             if (dgv.Columns.Contains("current_cost"))
             {
                 dgv.Columns["current_cost"].HeaderText = "Текущая стоимость";
@@ -263,7 +263,7 @@ namespace Carsharing.UserControls
             if (dgv.Columns.Contains("start_time"))
                 dgv.Columns["start_time"].HeaderText = "Время начала";
             if (dgv.Columns.Contains("start_address"))
-                dgv.Columns["start_address"].HeaderText = "Парковка";
+                dgv.Columns["start_address"].HeaderText = "Начальная парковка";
         }
     }
 }

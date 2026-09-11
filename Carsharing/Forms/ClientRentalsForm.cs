@@ -21,7 +21,6 @@ namespace Carsharing.Forms
             var rental = new Rental();
             var data = rental.GetClientRentals(_clientId);
 
-            // Создаём новую таблицу с нужными столбцами
             DataTable displayTable = new DataTable();
             displayTable.Columns.Add("Автомобиль", typeof(string));
             displayTable.Columns.Add("Госномер", typeof(string));
@@ -30,7 +29,6 @@ namespace Carsharing.Forms
             displayTable.Columns.Add("Стоимость", typeof(decimal));
             displayTable.Columns.Add("Статус", typeof(string));
 
-            // Заполняем данными
             foreach (DataRow row in data.Rows)
             {
                 string carName = $"{row["brand"]} {row["model"]}";
@@ -61,7 +59,6 @@ namespace Carsharing.Forms
             dgv.EnableHeadersVisualStyles = false;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Форматирование стоимости
             if (dgv.Columns.Contains("Стоимость"))
             {
                 dgv.Columns["Стоимость"].DefaultCellStyle.Format = "N2";

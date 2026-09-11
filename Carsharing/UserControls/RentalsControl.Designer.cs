@@ -91,7 +91,7 @@
             this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
             this.btnRefresh.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRefresh.Location = new System.Drawing.Point(462, 703);
+            this.btnRefresh.Location = new System.Drawing.Point(468, 803);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(207, 49);
             this.btnRefresh.TabIndex = 27;

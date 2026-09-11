@@ -15,6 +15,7 @@ namespace Carsharing.UserControls
             InitializeComponent();
             _account = account;
             LoadProfile();
+
         }
 
         private void LoadProfile()
@@ -31,6 +32,8 @@ namespace Carsharing.UserControls
                 LoadOperatorProfile();
             }
         }
+
+        
 
         private int GetClientId()
         {
@@ -196,7 +199,6 @@ namespace Carsharing.UserControls
 
         private bool ValidateFields()
         {
-            // Фамилия
             if (string.IsNullOrWhiteSpace(txtLastName.Text))
             {
                 MessageBox.Show("Введите фамилию!", "Ошибка");
@@ -210,7 +212,6 @@ namespace Carsharing.UserControls
                 return false;
             }
 
-            // Имя
             if (string.IsNullOrWhiteSpace(txtFirstName.Text))
             {
                 MessageBox.Show("Введите имя!", "Ошибка");
@@ -224,7 +225,6 @@ namespace Carsharing.UserControls
                 return false;
             }
 
-            // Отчество (если не пустое)
             if (!string.IsNullOrWhiteSpace(txtPatronymic.Text))
             {
                 if (!IsOnlyLetters(txtPatronymic.Text))
@@ -235,7 +235,6 @@ namespace Carsharing.UserControls
                 }
             }
 
-            // Телефон
             string phone = txtPhone.Text.Trim();
             if (phone.Length != 12 || !phone.StartsWith("+7"))
             {
@@ -253,15 +252,12 @@ namespace Carsharing.UserControls
                 }
             }
 
-            // Карта (если заполнена)
             string cardNumber = txtCardNumber.Text.Replace(" ", "").Replace("-", "");
             string expiry = txtCardExpiry.Text;
             string cvv = txtCardCVV.Text;
 
-            // Если хоть одно поле карты заполнено — проверяем все
             if (!string.IsNullOrWhiteSpace(cardNumber) || !string.IsNullOrWhiteSpace(expiry) || !string.IsNullOrWhiteSpace(cvv))
             {
-                // Номер карты — только цифры, 16 символов
                 if (cardNumber.Length != 16 || !IsOnlyDigits(cardNumber))
                 {
                     MessageBox.Show("Введите корректный номер карты (16 цифр)!", "Ошибка");
@@ -270,7 +266,6 @@ namespace Carsharing.UserControls
                     return false;
                 }
 
-                // Срок — формат ММ/ГГ
                 if (expiry.Length != 5 || !expiry.Contains("/"))
                 {
                     MessageBox.Show("Введите срок действия в формате ММ/ГГ!", "Ошибка");
@@ -279,7 +274,6 @@ namespace Carsharing.UserControls
                     return false;
                 }
 
-                // Проверка, что месяц и год — цифры
                 string[] parts = expiry.Split('/');
                 if (parts.Length != 2 || parts[0].Length != 2 || parts[1].Length != 2 ||
                     !IsOnlyDigits(parts[0]) || !IsOnlyDigits(parts[1]))
@@ -300,7 +294,17 @@ namespace Carsharing.UserControls
                     return false;
                 }
 
-                // CVV — только цифры, 3 символа
+                int currentYear = DateTime.Now.Year % 100;
+                int currentMonth = DateTime.Now.Month;
+
+                if (year < currentYear || (year == currentYear && month < currentMonth))
+                {
+                    MessageBox.Show("Срок действия карты истёк!", "Ошибка");
+                    txtCardExpiry.Focus();
+                    txtCardExpiry.SelectAll();
+                    return false;
+                }
+
                 if (cvv.Length != 3 || !IsOnlyDigits(cvv))
                 {
                     MessageBox.Show("Введите корректный CVV (3 цифры)!", "Ошибка");
@@ -308,6 +312,8 @@ namespace Carsharing.UserControls
                     txtCardCVV.SelectAll();
                     return false;
                 }
+
+
             }
 
             return true;

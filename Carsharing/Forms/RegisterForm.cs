@@ -1,6 +1,7 @@
 ﻿using Carsharing.Classes;
 using Carsharing.Services;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,11 +17,12 @@ namespace Carsharing.Forms
             this.WindowState = FormWindowState.Maximized;
             this.Text = "Регистрация";
 
-            ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(txtPhone, "Пример: +79001234567");
-            toolTip.SetToolTip(txtCardNumber, "Пример: 1234 5678 9012 3456");
-            toolTip.SetToolTip(txtCardExpiry, "Пример: 12/25");
-            toolTip.SetToolTip(txtCardCVV, "Пример: 123");
+
+            SetupPlaceholder(txtPhone, "Пример: +79001234567");
+            SetupPlaceholder(txtPassword, "8 символов");
+
+
+
         }
 
         public void OnClosed()
@@ -29,14 +31,68 @@ namespace Carsharing.Forms
             { back = false; }
             else { Application.Exit(); }
         }
+        public static void SetupPlaceholder(TextBox textBox, string placeholder)
+        {
+            if (textBox.PasswordChar != '\0')
+            {
+                textBox.Text = placeholder;
+                textBox.ForeColor = Color.Gray;
+                textBox.Tag = placeholder;
+                textBox.PasswordChar = '\0';
+
+                textBox.Enter += (s, e) =>
+                {
+                    if (textBox.Text == textBox.Tag?.ToString())
+                    {
+                        textBox.Text = "";
+                        textBox.ForeColor = Color.Black;
+                        textBox.PasswordChar = '*';
+                    }
+                };
+
+                textBox.Leave += (s, e) =>
+                {
+                    if (string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        textBox.Text = placeholder;
+                        textBox.ForeColor = Color.Gray;
+                        textBox.PasswordChar = '\0';
+                    }
+                    else
+                    {
+                        textBox.PasswordChar = '*';
+                    }
+                };
+            }
+            else
+            {
+                textBox.Text = placeholder;
+                textBox.ForeColor = Color.Gray;
+                textBox.Tag = placeholder;
+
+                textBox.Enter += (s, e) =>
+                {
+                    if (textBox.Text == textBox.Tag?.ToString())
+                    {
+                        textBox.Text = "";
+                        textBox.ForeColor = Color.Black;
+                    }
+                };
+
+                textBox.Leave += (s, e) =>
+                {
+                    if (string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        textBox.Text = placeholder;
+                        textBox.ForeColor = Color.Gray;
+                    }
+                };
+            }
+        }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (txtPassword.Text != txtConfirmPassword.Text)
-            {
-                MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            
 
             if (string.IsNullOrWhiteSpace(txtLogin.Text)
                 || string.IsNullOrWhiteSpace(txtPassword.Text)
@@ -60,28 +116,9 @@ namespace Carsharing.Forms
                 return;
             }
 
-            string cardNumber = txtCardNumber.Text.Replace(" ", "");
-            string expiry = txtCardExpiry.Text;
-            string cvv = txtCardCVV.Text;
-
-            if (cardNumber.Length != 16 || !long.TryParse(cardNumber, out _))
+            if (txtPassword.Text != txtConfirmPassword.Text)
             {
-                MessageBox.Show("Введите корректный номер карты (16 цифр)!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCardNumber.Focus();
-                return;
-            }
-
-            if (expiry.Length != 5 || !expiry.Contains("/"))
-            {
-                MessageBox.Show("Введите срок действия в формате ММ/ГГ!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCardExpiry.Focus();
-                return;
-            }
-
-            if (cvv.Length != 3 || !int.TryParse(cvv, out _))
-            {
-                MessageBox.Show("Введите корректный CVV (3 цифры)!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCardCVV.Focus();
+                MessageBox.Show("Пароли не совпадают", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -91,6 +128,19 @@ namespace Carsharing.Forms
             if (age < 21)
             {
                 MessageBox.Show("Возраст должен быть не менее 21 года!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DateTime birthDate = dtpBirthDate.Value;
+            DateTime licenseDate = dtpLicenseDate.Value;
+
+            int ageAtLicense = licenseDate.Year - birthDate.Year;
+            if (licenseDate.Date < birthDate.AddYears(ageAtLicense)) ageAtLicense--;
+
+            if (ageAtLicense < 18)
+            {
+                MessageBox.Show("Возраст при получении водительского удостоверения должен быть не менее 18 лет!",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -119,33 +169,36 @@ namespace Carsharing.Forms
 
                 if (clientId == 0)
                 {
-                    MessageBox.Show("Ошибка регистрации! Попробуйте снова.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ошибка регистрации! Попробуйте снова.", "Ошибка");
                     return;
                 }
 
-                var card = new Card();
-                card.SaveCard(clientId, cardNumber, expiry, cvv);
-
-                MessageBox.Show("Регистрация успешна! Карта сохранена.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Регистрация успешна!", "Успех");
 
                 var authService = new AuthService();
                 Account account = authService.GetUserByLogin(txtLogin.Text);
 
                 if (account == null)
                 {
-                    MessageBox.Show("Не удалось получить данные аккаунта!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось получить данные аккаунта!", "Ошибка");
                     return;
                 }
 
                 MainForm mainForm = new MainForm(account);
                 mainForm.Show();
 
+                LoginForm loginForm = Application.OpenForms.OfType<LoginForm>().FirstOrDefault();
+                if (loginForm != null)
+                {
+                    loginForm.Hide();
+                }
+
                 back = true;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
             }
         }
 
@@ -170,21 +223,6 @@ namespace Carsharing.Forms
             OnClosed();
         }
 
-        private void txtCardNumber_TextChanged(object sender, EventArgs e)
-        {
-            string text = txtCardNumber.Text.Replace(" ", "");
-            if (text.Length > 16)
-                text = text.Substring(0, 16);
-
-            if (text.Length >= 4)
-                text = text.Insert(4, " ");
-            if (text.Length >= 9)
-                text = text.Insert(9, " ");
-            if (text.Length >= 14)
-                text = text.Insert(14, " ");
-
-            txtCardNumber.Text = text.Trim();
-            txtCardNumber.SelectionStart = txtCardNumber.Text.Length;
-        }
+        
     }
 }

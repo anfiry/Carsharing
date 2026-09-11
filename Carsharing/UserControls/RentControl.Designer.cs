@@ -47,6 +47,7 @@
             this.timerCost = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.labelchoose = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCars)).BeginInit();
             this.panel1.SuspendLayout();
             this.panelWelcome.SuspendLayout();
@@ -79,7 +80,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.dgvCars);
-            this.panel1.Location = new System.Drawing.Point(24, 130);
+            this.panel1.Location = new System.Drawing.Point(24, 146);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1142, 236);
             this.panel1.TabIndex = 92;
@@ -110,7 +111,7 @@
             this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
             this.btnRefresh.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRefresh.Location = new System.Drawing.Point(292, 15);
+            this.btnRefresh.Location = new System.Drawing.Point(336, 15);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(207, 49);
             this.btnRefresh.TabIndex = 89;
@@ -124,9 +125,9 @@
             this.btnAction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
             this.btnAction.Enabled = false;
             this.btnAction.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnAction.Location = new System.Drawing.Point(13, 15);
+            this.btnAction.Location = new System.Drawing.Point(14, 15);
             this.btnAction.Name = "btnAction";
-            this.btnAction.Size = new System.Drawing.Size(249, 49);
+            this.btnAction.Size = new System.Drawing.Size(282, 49);
             this.btnAction.TabIndex = 94;
             this.btnAction.Text = "Начать аренду";
             this.btnAction.UseVisualStyleBackColor = false;
@@ -229,7 +230,7 @@
             this.panel2.Controls.Add(this.btnAction);
             this.panel2.Location = new System.Drawing.Point(24, 947);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(542, 75);
+            this.panel2.Size = new System.Drawing.Size(597, 75);
             this.panel2.TabIndex = 103;
             // 
             // panel3
@@ -240,11 +241,22 @@
             this.panel3.Size = new System.Drawing.Size(342, 62);
             this.panel3.TabIndex = 104;
             // 
+            // labelchoose
+            // 
+            this.labelchoose.AutoSize = true;
+            this.labelchoose.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelchoose.Location = new System.Drawing.Point(65, 109);
+            this.labelchoose.Name = "labelchoose";
+            this.labelchoose.Size = new System.Drawing.Size(186, 23);
+            this.labelchoose.TabIndex = 105;
+            this.labelchoose.Text = "Выберите машину";
+            // 
             // RentControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.labelchoose);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.lblCurrentCost);
@@ -289,5 +301,6 @@
         private System.Windows.Forms.Timer timerCost;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label labelchoose;
     }
 }

@@ -50,12 +50,6 @@
             this.labelLastName = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.labelRegMain = new System.Windows.Forms.Label();
-            this.txtCardExpiry = new System.Windows.Forms.TextBox();
-            this.lblExpiry = new System.Windows.Forms.Label();
-            this.txtCardCVV = new System.Windows.Forms.TextBox();
-            this.lblCVV = new System.Windows.Forms.Label();
-            this.txtCardNumber = new System.Windows.Forms.TextBox();
-            this.lblCardNumber = new System.Windows.Forms.Label();
             this.panelReg.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,12 +57,6 @@
             // 
             this.panelReg.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelReg.BackColor = System.Drawing.Color.White;
-            this.panelReg.Controls.Add(this.txtCardExpiry);
-            this.panelReg.Controls.Add(this.lblExpiry);
-            this.panelReg.Controls.Add(this.txtCardCVV);
-            this.panelReg.Controls.Add(this.lblCVV);
-            this.panelReg.Controls.Add(this.txtCardNumber);
-            this.panelReg.Controls.Add(this.lblCardNumber);
             this.panelReg.Controls.Add(this.btnBack);
             this.panelReg.Controls.Add(this.btnRegister);
             this.panelReg.Controls.Add(this.dtpLicenseDate);
@@ -90,16 +78,16 @@
             this.panelReg.Controls.Add(this.labelLastName);
             this.panelReg.Controls.Add(this.txtLastName);
             this.panelReg.Controls.Add(this.labelRegMain);
-            this.panelReg.Location = new System.Drawing.Point(88, 45);
+            this.panelReg.Location = new System.Drawing.Point(227, 48);
             this.panelReg.Name = "panelReg";
-            this.panelReg.Size = new System.Drawing.Size(994, 885);
+            this.panelReg.Size = new System.Drawing.Size(737, 885);
             this.panelReg.TabIndex = 0;
             // 
             // btnBack
             // 
             this.btnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.btnBack.Font = new System.Drawing.Font("Century", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnBack.Location = new System.Drawing.Point(435, 753);
+            this.btnBack.Location = new System.Drawing.Point(315, 818);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(160, 33);
             this.btnBack.TabIndex = 27;
@@ -111,7 +99,7 @@
             // 
             this.btnRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
             this.btnRegister.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRegister.Location = new System.Drawing.Point(369, 664);
+            this.btnRegister.Location = new System.Drawing.Point(249, 729);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(284, 54);
             this.btnRegister.TabIndex = 26;
@@ -122,7 +110,7 @@
             // dtpLicenseDate
             // 
             this.dtpLicenseDate.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dtpLicenseDate.Location = new System.Drawing.Point(698, 359);
+            this.dtpLicenseDate.Location = new System.Drawing.Point(335, 652);
             this.dtpLicenseDate.Name = "dtpLicenseDate";
             this.dtpLicenseDate.Size = new System.Drawing.Size(238, 29);
             this.dtpLicenseDate.TabIndex = 25;
@@ -130,7 +118,7 @@
             // dtpBirthDate
             // 
             this.dtpBirthDate.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dtpBirthDate.Location = new System.Drawing.Point(698, 290);
+            this.dtpBirthDate.Location = new System.Drawing.Point(335, 583);
             this.dtpBirthDate.Name = "dtpBirthDate";
             this.dtpBirthDate.Size = new System.Drawing.Size(238, 29);
             this.dtpBirthDate.TabIndex = 1;
@@ -139,7 +127,7 @@
             // 
             this.labelLicenseDate.AutoSize = true;
             this.labelLicenseDate.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLicenseDate.Location = new System.Drawing.Point(494, 363);
+            this.labelLicenseDate.Location = new System.Drawing.Point(131, 656);
             this.labelLicenseDate.Name = "labelLicenseDate";
             this.labelLicenseDate.Size = new System.Drawing.Size(186, 23);
             this.labelLicenseDate.TabIndex = 24;
@@ -149,7 +137,7 @@
             // 
             this.labelBirthDate.AutoSize = true;
             this.labelBirthDate.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelBirthDate.Location = new System.Drawing.Point(521, 294);
+            this.labelBirthDate.Location = new System.Drawing.Point(158, 587);
             this.labelBirthDate.Name = "labelBirthDate";
             this.labelBirthDate.Size = new System.Drawing.Size(159, 23);
             this.labelBirthDate.TabIndex = 22;
@@ -159,7 +147,7 @@
             // 
             this.labelConfirmPassword.AutoSize = true;
             this.labelConfirmPassword.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelConfirmPassword.Location = new System.Drawing.Point(13, 497);
+            this.labelConfirmPassword.Location = new System.Drawing.Point(131, 510);
             this.labelConfirmPassword.Name = "labelConfirmPassword";
             this.labelConfirmPassword.Size = new System.Drawing.Size(184, 23);
             this.labelConfirmPassword.TabIndex = 20;
@@ -169,7 +157,7 @@
             // 
             this.txtConfirmPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtConfirmPassword.Location = new System.Drawing.Point(217, 493);
+            this.txtConfirmPassword.Location = new System.Drawing.Point(335, 506);
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.PasswordChar = '*';
             this.txtConfirmPassword.Size = new System.Drawing.Size(238, 30);
@@ -179,7 +167,7 @@
             // 
             this.labelPassword.AutoSize = true;
             this.labelPassword.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPassword.Location = new System.Drawing.Point(115, 425);
+            this.labelPassword.Location = new System.Drawing.Point(233, 438);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(82, 23);
             this.labelPassword.TabIndex = 18;
@@ -189,7 +177,7 @@
             // 
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtPassword.Location = new System.Drawing.Point(217, 425);
+            this.txtPassword.Location = new System.Drawing.Point(335, 438);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(238, 30);
@@ -199,7 +187,7 @@
             // 
             this.labelLogin.AutoSize = true;
             this.labelLogin.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLogin.Location = new System.Drawing.Point(127, 364);
+            this.labelLogin.Location = new System.Drawing.Point(245, 377);
             this.labelLogin.Name = "labelLogin";
             this.labelLogin.Size = new System.Drawing.Size(70, 23);
             this.labelLogin.TabIndex = 16;
@@ -209,7 +197,7 @@
             // 
             this.txtLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtLogin.Location = new System.Drawing.Point(217, 357);
+            this.txtLogin.Location = new System.Drawing.Point(335, 370);
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.Size = new System.Drawing.Size(238, 30);
             this.txtLogin.TabIndex = 15;
@@ -218,7 +206,7 @@
             // 
             this.labeltxtPhone.AutoSize = true;
             this.labeltxtPhone.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labeltxtPhone.Location = new System.Drawing.Point(28, 296);
+            this.labeltxtPhone.Location = new System.Drawing.Point(146, 309);
             this.labeltxtPhone.Name = "labeltxtPhone";
             this.labeltxtPhone.Size = new System.Drawing.Size(169, 23);
             this.labeltxtPhone.TabIndex = 14;
@@ -228,7 +216,7 @@
             // 
             this.txtPhone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtPhone.Location = new System.Drawing.Point(217, 292);
+            this.txtPhone.Location = new System.Drawing.Point(335, 305);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(238, 30);
             this.txtPhone.TabIndex = 13;
@@ -237,7 +225,7 @@
             // 
             this.labelPatronymic.AutoSize = true;
             this.labelPatronymic.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPatronymic.Location = new System.Drawing.Point(90, 230);
+            this.labelPatronymic.Location = new System.Drawing.Point(208, 243);
             this.labelPatronymic.Name = "labelPatronymic";
             this.labelPatronymic.Size = new System.Drawing.Size(107, 23);
             this.labelPatronymic.TabIndex = 12;
@@ -247,7 +235,7 @@
             // 
             this.txtPatronymic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtPatronymic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtPatronymic.Location = new System.Drawing.Point(217, 223);
+            this.txtPatronymic.Location = new System.Drawing.Point(335, 236);
             this.txtPatronymic.Name = "txtPatronymic";
             this.txtPatronymic.Size = new System.Drawing.Size(238, 30);
             this.txtPatronymic.TabIndex = 11;
@@ -256,7 +244,7 @@
             // 
             this.labelFirstName.AutoSize = true;
             this.labelFirstName.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelFirstName.Location = new System.Drawing.Point(144, 162);
+            this.labelFirstName.Location = new System.Drawing.Point(262, 175);
             this.labelFirstName.Name = "labelFirstName";
             this.labelFirstName.Size = new System.Drawing.Size(53, 23);
             this.labelFirstName.TabIndex = 10;
@@ -266,7 +254,7 @@
             // 
             this.txtFirstName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtFirstName.Location = new System.Drawing.Point(217, 155);
+            this.txtFirstName.Location = new System.Drawing.Point(335, 168);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(238, 30);
             this.txtFirstName.TabIndex = 9;
@@ -275,7 +263,7 @@
             // 
             this.labelLastName.AutoSize = true;
             this.labelLastName.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLastName.Location = new System.Drawing.Point(99, 90);
+            this.labelLastName.Location = new System.Drawing.Point(217, 103);
             this.labelLastName.Name = "labelLastName";
             this.labelLastName.Size = new System.Drawing.Size(100, 23);
             this.labelLastName.TabIndex = 8;
@@ -285,7 +273,7 @@
             // 
             this.txtLastName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.txtLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtLastName.Location = new System.Drawing.Point(217, 90);
+            this.txtLastName.Location = new System.Drawing.Point(335, 103);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(238, 30);
             this.txtLastName.TabIndex = 1;
@@ -296,71 +284,10 @@
             this.labelRegMain.Font = new System.Drawing.Font("Century", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelRegMain.Location = new System.Drawing.Point(0, 0);
             this.labelRegMain.Name = "labelRegMain";
-            this.labelRegMain.Size = new System.Drawing.Size(994, 55);
+            this.labelRegMain.Size = new System.Drawing.Size(737, 55);
             this.labelRegMain.TabIndex = 0;
             this.labelRegMain.Text = "Регистрация";
             this.labelRegMain.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtCardExpiry
-            // 
-            this.txtCardExpiry.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtCardExpiry.Location = new System.Drawing.Point(646, 153);
-            this.txtCardExpiry.MaxLength = 5;
-            this.txtCardExpiry.Name = "txtCardExpiry";
-            this.txtCardExpiry.Size = new System.Drawing.Size(317, 27);
-            this.txtCardExpiry.TabIndex = 90;
-            // 
-            // lblExpiry
-            // 
-            this.lblExpiry.AutoSize = true;
-            this.lblExpiry.BackColor = System.Drawing.Color.White;
-            this.lblExpiry.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblExpiry.Location = new System.Drawing.Point(492, 158);
-            this.lblExpiry.Name = "lblExpiry";
-            this.lblExpiry.Size = new System.Drawing.Size(130, 22);
-            this.lblExpiry.TabIndex = 89;
-            this.lblExpiry.Text = "Срок (ММ/ГГ)";
-            // 
-            // txtCardCVV
-            // 
-            this.txtCardCVV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtCardCVV.Location = new System.Drawing.Point(646, 213);
-            this.txtCardCVV.MaxLength = 3;
-            this.txtCardCVV.Name = "txtCardCVV";
-            this.txtCardCVV.PasswordChar = '*';
-            this.txtCardCVV.Size = new System.Drawing.Size(317, 27);
-            this.txtCardCVV.TabIndex = 88;
-            // 
-            // lblCVV
-            // 
-            this.lblCVV.AutoSize = true;
-            this.lblCVV.BackColor = System.Drawing.Color.White;
-            this.lblCVV.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCVV.Location = new System.Drawing.Point(567, 219);
-            this.lblCVV.Name = "lblCVV";
-            this.lblCVV.Size = new System.Drawing.Size(49, 22);
-            this.lblCVV.TabIndex = 87;
-            this.lblCVV.Text = "CVV";
-            // 
-            // txtCardNumber
-            // 
-            this.txtCardNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtCardNumber.Location = new System.Drawing.Point(646, 94);
-            this.txtCardNumber.MaxLength = 19;
-            this.txtCardNumber.Name = "txtCardNumber";
-            this.txtCardNumber.Size = new System.Drawing.Size(317, 27);
-            this.txtCardNumber.TabIndex = 86;
-            // 
-            // lblCardNumber
-            // 
-            this.lblCardNumber.AutoSize = true;
-            this.lblCardNumber.BackColor = System.Drawing.Color.White;
-            this.lblCardNumber.Font = new System.Drawing.Font("Century", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCardNumber.Location = new System.Drawing.Point(498, 96);
-            this.lblCardNumber.Name = "lblCardNumber";
-            this.lblCardNumber.Size = new System.Drawing.Size(124, 22);
-            this.lblCardNumber.TabIndex = 85;
-            this.lblCardNumber.Text = "Номер карты";
             // 
             // RegisterForm
             // 
@@ -402,11 +329,5 @@
         private System.Windows.Forms.DateTimePicker dtpLicenseDate;
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.TextBox txtCardExpiry;
-        private System.Windows.Forms.Label lblExpiry;
-        private System.Windows.Forms.TextBox txtCardCVV;
-        private System.Windows.Forms.Label lblCVV;
-        private System.Windows.Forms.TextBox txtCardNumber;
-        private System.Windows.Forms.Label lblCardNumber;
     }
 }

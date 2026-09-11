@@ -90,13 +90,12 @@ namespace Carsharing.UserControls
         private void LoadRentalsByClient(int clientId)
         {
             var rental = new Rental();
-            var rentals = rental.GetClientRentals(clientId); 
+            var rentals = rental.GetClientRentals(clientId);
 
             rentals.Columns.Add("DisplayText", typeof(string));
             foreach (DataRow row in rentals.Rows)
             {
-                string brand = row["brand"].ToString();
-                string model = row["model"].ToString();
+                string carInfo = row["car_info"].ToString();
                 string stateNumber = row["state_number"].ToString();
                 string startTime = Convert.ToDateTime(row["start_time"]).ToShortDateString();
                 string status = row["rental_status_name"].ToString();
@@ -110,11 +109,11 @@ namespace Carsharing.UserControls
                 string displayText;
                 if (status == "Активна")
                 {
-                    displayText = $"{brand} {model} ({stateNumber}) {startTime} → Активна";
+                    displayText = $"{carInfo} ({stateNumber}) {startTime} → Активна";
                 }
                 else
                 {
-                    displayText = $"{brand} {model} ({stateNumber}) {startTime} → {endTime} [{status}]";
+                    displayText = $"{carInfo} ({stateNumber}) {startTime} → {endTime} [{status}]";
                 }
 
                 row["DisplayText"] = displayText;
@@ -170,7 +169,6 @@ namespace Carsharing.UserControls
                     return;
                 }
 
-                // Проверка суммы: только цифры и десятичная точка
                 string amountText = txtAmount.Text.Trim();
                 if (string.IsNullOrWhiteSpace(amountText))
                 {
@@ -179,10 +177,8 @@ namespace Carsharing.UserControls
                     return;
                 }
 
-                // Заменяем запятую на точку для парсинга
                 amountText = amountText.Replace(",", ".");
 
-                // Проверяем, что введены только цифры, точка и запятая
                 foreach (char c in amountText)
                 {
                     if (!char.IsDigit(c) && c != '.')
@@ -205,6 +201,14 @@ namespace Carsharing.UserControls
                 if (amount <= 0)
                 {
                     MessageBox.Show("Сумма должна быть больше 0!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAmount.Focus();
+                    txtAmount.SelectAll();
+                    return;
+                }
+
+                if (amount > 1000000)
+                {
+                    MessageBox.Show("Сумма штрафа не может превышать 1 000 000 ₽!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtAmount.Focus();
                     txtAmount.SelectAll();
                     return;

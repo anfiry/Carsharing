@@ -16,6 +16,8 @@ namespace Carsharing.UserControls
         {
             InitializeComponent();
             LoadClients();
+
+            SetupPlaceholder(txtPhone, "Пример: +79001234567");
         }
 
         private void LoadClients()
@@ -24,6 +26,32 @@ namespace Carsharing.UserControls
             _clients = client.GetAllClients();
             dgvClients.DataSource = _clients;
             SetupClientsGrid(dgvClients);
+        }
+
+
+        private void SetupPlaceholder(TextBox textBox, string placeholder)
+        {
+            textBox.Text = placeholder;
+            textBox.ForeColor = Color.Black;
+            textBox.Tag = placeholder;
+
+            textBox.Enter += (s, e) =>
+            {
+                if (textBox.Text == textBox.Tag?.ToString())
+                {
+                    textBox.Text = "";
+                    textBox.ForeColor = Color.Black;
+                }
+            };
+
+            textBox.Leave += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    textBox.Text = placeholder;
+                    textBox.ForeColor = Color.Gray;
+                }
+            };
         }
 
         private void SetupClientsGrid(DataGridView dgv)

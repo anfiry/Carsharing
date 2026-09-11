@@ -97,7 +97,7 @@
             this.panel1.Controls.Add(this.dgvCars);
             this.panel1.Location = new System.Drawing.Point(34, 142);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1112, 158);
+            this.panel1.Size = new System.Drawing.Size(1112, 250);
             this.panel1.TabIndex = 51;
             // 
             // dgvCars
@@ -106,7 +106,7 @@
             this.dgvCars.BackgroundColor = System.Drawing.Color.White;
             this.dgvCars.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCars.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCars.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvCars.EnableHeadersVisualStyles = false;
             this.dgvCars.Location = new System.Drawing.Point(0, 0);
             this.dgvCars.MultiSelect = false;
@@ -115,7 +115,7 @@
             this.dgvCars.RowHeadersWidth = 51;
             this.dgvCars.RowTemplate.Height = 24;
             this.dgvCars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCars.Size = new System.Drawing.Size(1112, 158);
+            this.dgvCars.Size = new System.Drawing.Size(1112, 250);
             this.dgvCars.TabIndex = 3;
             this.dgvCars.SelectionChanged += new System.EventHandler(this.dgvCars_SelectionChanged);
             // 
@@ -145,7 +145,7 @@
             this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
             this.btnRefresh.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRefresh.Location = new System.Drawing.Point(867, 455);
+            this.btnRefresh.Location = new System.Drawing.Point(867, 502);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(190, 44);
             this.btnRefresh.TabIndex = 54;
@@ -173,7 +173,7 @@
             this.groupBox1.Controls.Add(this.lblModel);
             this.groupBox1.Controls.Add(this.lblYear);
             this.groupBox1.Controls.Add(this.lblBrand);
-            this.groupBox1.Location = new System.Drawing.Point(34, 455);
+            this.groupBox1.Location = new System.Drawing.Point(34, 498);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(672, 567);
             this.groupBox1.TabIndex = 65;

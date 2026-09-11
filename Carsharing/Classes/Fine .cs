@@ -78,12 +78,10 @@ namespace Carsharing.Classes
         {
             using (var db = new DBService())
             {
-                //создать 
                 var paymentId = db.ExecuteFunction(
                     "create_payment_for_fine",
                     new NpgsqlParameter("p_fine_id", fineId));
 
-                //поменять стат на оплачен
                 db.ExecuteNonQuery(
                     "SELECT public.confirm_payment(@p_payment_id)",
                     new NpgsqlParameter("p_payment_id", Convert.ToInt32(paymentId)));

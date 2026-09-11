@@ -87,6 +87,37 @@ namespace Carsharing.UserControls
             return 0;
         }
 
+
+        private bool IsCardValid(string cardNumber, string expiry, string cvv)
+        {
+            string cleanNumber = cardNumber.Replace(" ", "").Replace("-", "");
+            if (cleanNumber.Length != 16 || !long.TryParse(cleanNumber, out _))
+                return false;
+
+            if (expiry.Length != 5 || !expiry.Contains("/"))
+                return false;
+
+            string[] parts = expiry.Split('/');
+            if (parts.Length != 2 || parts[0].Length != 2 || parts[1].Length != 2)
+                return false;
+
+            if (!int.TryParse(parts[0], out int month) || !int.TryParse(parts[1], out int year))
+                return false;
+
+            if (month < 1 || month > 12)
+                return false;
+
+            int currentYear = DateTime.Now.Year % 100;
+            int currentMonth = DateTime.Now.Month;
+            if (year < currentYear || (year == currentMonth && month < currentMonth))
+                return false;
+
+            if (cvv.Length != 3 || !int.TryParse(cvv, out _))
+                return false;
+
+            return true;
+        }
+
         private void SetupFinesGrid(DataGridView dgv)
         {
             dgv.RowHeadersVisible = false;
@@ -159,6 +190,16 @@ namespace Carsharing.UserControls
                     return;
                 }
 
+                string cardNumber = cards.Rows[0]["card_number"].ToString();
+                string expiry = cards.Rows[0]["expiry_date"].ToString();
+                string cvv = cards.Rows[0]["cvv"].ToString();
+
+                if (!IsCardValid(cardNumber, expiry, cvv))
+                {
+                    MessageBox.Show("Ваша карта недействительна!\nПроверьте данные карты в профиле.", "Ошибка");
+                    return;
+                }
+
                 btnPayFine.Enabled = false;
                 btnPayFine.Text = "⏳ Обработка...";
                 progressBar.Visible = true;
@@ -166,7 +207,7 @@ namespace Carsharing.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Ошибка: {ex.Message}", "Ошибка");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
                 btnPayFine.Text = "Оплатить штраф";
                 btnPayFine.Enabled = true;
                 progressBar.Visible = false;
@@ -197,13 +238,13 @@ namespace Carsharing.UserControls
                 var fine = new Card();
                 fine.PayFineWithCard(_pendingFineId, cardId);
 
-                MessageBox.Show($"✅ Штраф {_pendingAmount:F2} ₽ оплачен!", "Успех");
+                MessageBox.Show($"Штраф {_pendingAmount:F2} ₽ оплачен!", "Успех");
                 LoadFines(cmbFilter.Text);
                 btnPayFine.Enabled = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Ошибка: {ex.Message}", "Ошибка");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
                 btnPayFine.Enabled = true;
             }
         }

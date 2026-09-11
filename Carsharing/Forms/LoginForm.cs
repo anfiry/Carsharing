@@ -22,7 +22,6 @@ namespace Carsharing.Forms
             { back = false; }
             else
             {
-                // Проверяем, есть ли другие открытые формы
                 if (Application.OpenForms.Count == 0)
                 {
                     Application.Exit();
@@ -32,8 +31,7 @@ namespace Carsharing.Forms
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtLogin.Text)
-                || string.IsNullOrWhiteSpace(txtPassword.Text))
+            if (string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 MessageBox.Show("Введите логин и пароль!", "Ошибка");
                 return;
@@ -48,7 +46,7 @@ namespace Carsharing.Forms
                 mainForm.Show();
 
                 back = true;
-                this.Hide();
+                this.Hide(); 
             }
             catch (Exception ex)
             {

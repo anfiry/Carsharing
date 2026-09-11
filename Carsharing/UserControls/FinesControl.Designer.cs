@@ -122,7 +122,7 @@
             this.btnPayFine.Font = new System.Drawing.Font("Century", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnPayFine.Location = new System.Drawing.Point(603, 820);
             this.btnPayFine.Name = "btnPayFine";
-            this.btnPayFine.Size = new System.Drawing.Size(213, 54);
+            this.btnPayFine.Size = new System.Drawing.Size(230, 54);
             this.btnPayFine.TabIndex = 88;
             this.btnPayFine.Text = "Оплатить";
             this.btnPayFine.UseVisualStyleBackColor = false;

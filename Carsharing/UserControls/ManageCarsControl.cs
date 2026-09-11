@@ -169,7 +169,7 @@ namespace Carsharing.UserControls
             if (dgv.Columns.Contains("fuel_type_name"))
                 dgv.Columns["fuel_type_name"].HeaderText = "Топливо";
             if (dgv.Columns.Contains("address"))
-                dgv.Columns["address"].HeaderText = "Адрес";
+                dgv.Columns["address"].HeaderText = "Текущая парковка";
         }
 
         private void SelectCarById(int carId)
@@ -251,28 +251,23 @@ namespace Carsharing.UserControls
         {
             number = number.Replace(" ", "").ToUpper();
 
-            // Длина: 8 или 9 символов
             if (number.Length != 8 && number.Length != 9)
                 return false;
 
             string allowedLetters = "АВЕКМНОРСТУХABEKMHOPCTYX";
 
-            // 1-й символ — буква
             if (!allowedLetters.Contains(number[0]))
                 return false;
 
-            // 2, 3, 4-й символы — цифры
             for (int i = 1; i <= 3; i++)
             {
                 if (!char.IsDigit(number[i]))
                     return false;
             }
 
-            // 5, 6-й символы — буквы
             if (!allowedLetters.Contains(number[4]) || !allowedLetters.Contains(number[5]))
                 return false;
 
-            // 7, 8, 9-й символы — цифры (регион)
             for (int i = 6; i < number.Length; i++)
             {
                 if (!char.IsDigit(number[i]))
@@ -311,53 +306,78 @@ namespace Carsharing.UserControls
 
             if (string.IsNullOrWhiteSpace(cmbBrand.Text))
             {
-                MessageBox.Show("Введите бренд!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите или выберите бренд!", "Ошибка");
                 cmbBrand.Focus();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(cmbModel.Text))
             {
-                MessageBox.Show("Введите модель!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите или выберите модель!", "Ошибка");
                 cmbModel.Focus();
                 return false;
             }
 
             if (nudYear.Value < 2000 || nudYear.Value > DateTime.Now.Year)
             {
-                MessageBox.Show($"Год должен быть от 2000 до {DateTime.Now.Year}!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Год должен быть от 2000 до {DateTime.Now.Year}!", "Ошибка");
                 nudYear.Focus();
                 return false;
             }
 
             if (nudPrice.Value < 1 || nudPrice.Value > 1000)
             {
-                MessageBox.Show("Цена должна быть от 1 до 1000!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Цена должна быть от 1 до 1000!", "Ошибка");
                 nudPrice.Focus();
                 return false;
             }
 
             if (cmbFuelType.SelectedIndex == -1)
             {
-                MessageBox.Show("Выберите тип топлива!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите тип топлива!", "Ошибка");
                 cmbFuelType.Focus();
                 return false;
             }
 
-            if (cmbColor.SelectedIndex == -1 && string.IsNullOrWhiteSpace(cmbColor.Text))
+            if (string.IsNullOrWhiteSpace(cmbColor.Text))
             {
-                MessageBox.Show("Выберите или введите цвет!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите или выберите цвет!", "Ошибка");
                 cmbColor.Focus();
+                return false;
+            }
+
+            if (!IsOnlyLetters(cmbColor.Text))
+            {
+                MessageBox.Show("Цвет должен содержать только буквы, пробелы и дефисы!", "Ошибка");
+                cmbColor.Focus();
+                cmbColor.SelectAll();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(cmbParking.Text))
+            {
+                MessageBox.Show("Введите или выберите парковку!", "Ошибка");
+                cmbParking.Focus();
                 return false;
             }
 
             if (cmbStatus.SelectedIndex == -1)
             {
-                MessageBox.Show("Выберите статус!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите статус!", "Ошибка");
                 cmbStatus.Focus();
                 return false;
             }
 
+            return true;
+        }
+
+        private bool IsOnlyLetters(string text)
+        {
+            foreach (char c in text)
+            {
+                if (!char.IsLetter(c) && c != ' ' && c != '-')
+                    return false;
+            }
             return true;
         }
 
@@ -380,6 +400,12 @@ namespace Carsharing.UserControls
 
             try
             {
+                string stateNumber = txtStateNumber.Text.Trim().Replace(" ", "").ToUpper();
+                if (stateNumber.Length > 9)
+                {
+                    stateNumber = stateNumber.Substring(0, 9);
+                }
+
                 var car = new Car();
                 var parking = new Parking();
 
@@ -387,58 +413,16 @@ namespace Carsharing.UserControls
                 string model = cmbModel.Text.Trim();
                 int savedCarId = _selectedCarId;
 
-                // Добавляем бренд если его нет
-                if (!string.IsNullOrWhiteSpace(brand))
-                {
-                    var brands = car.GetAllBrands();
-                    bool brandExists = false;
-                    foreach (DataRow row in brands.Rows)
-                    {
-                        if (row["brand"].ToString() == brand)
-                        {
-                            brandExists = true;
-                            break;
-                        }
-                    }
-                    if (!brandExists)
-                    {
-                        car.AddBrand(brand);
-                        LoadBrands();
-                    }
-                }
-
-                // Добавляем модель если её нет
-                if (!string.IsNullOrWhiteSpace(model))
-                {
-                    var models = car.GetAllModels();
-                    bool modelExists = false;
-                    foreach (DataRow row in models.Rows)
-                    {
-                        if (row["model"].ToString() == model)
-                        {
-                            modelExists = true;
-                            break;
-                        }
-                    }
-                    if (!modelExists)
-                    {
-                        car.AddModel(model);
-                        LoadModels();
-                    }
-                }
-
-                // Добавляем цвет если его нет
                 int colorId;
-                if (string.IsNullOrWhiteSpace(cmbColor.Text))
-                {
-                    colorId = (int)cmbColor.SelectedValue;
-                }
-                else
+                if (!string.IsNullOrWhiteSpace(cmbColor.Text))
                 {
                     colorId = car.GetOrAddColor(cmbColor.Text.Trim());
                 }
+                else
+                {
+                    colorId = (int)cmbColor.SelectedValue;
+                }
 
-                // Добавляем парковку если её нет
                 int? parkingId = null;
                 string addressText = cmbParking.Text.Trim();
                 if (!string.IsNullOrWhiteSpace(addressText))
@@ -476,23 +460,23 @@ namespace Carsharing.UserControls
                 if (_selectedCarId == 0)
                 {
                     car.AddCar(
-                        txtStateNumber.Text,
-                        brand,
-                        model,
+                        stateNumber,
+                        brand,   
+                        model,   
                         (int)nudYear.Value,
                         nudPrice.Value,
                         fuelTypeId,
                         colorId,
                         parkingId
                     );
-                    MessageBox.Show("✅ Машина добавлена!", "Успех");
+                    MessageBox.Show("Машина добавлена!", "Успех");
                     savedCarId = 0;
                 }
                 else
                 {
                     car.UpdateCar(
                         _selectedCarId,
-                        txtStateNumber.Text,
+                        stateNumber,
                         brand,
                         model,
                         (int)nudYear.Value,
@@ -501,7 +485,7 @@ namespace Carsharing.UserControls
                         colorId,
                         parkingId
                     );
-                    MessageBox.Show("✅ Машина обновлена!", "Успех");
+                    MessageBox.Show("Машина обновлена!", "Успех");
                 }
 
                 ClearFields();
@@ -509,6 +493,7 @@ namespace Carsharing.UserControls
                 LoadBrands();
                 LoadModels();
                 LoadComboBoxes();
+
                 btnSave.Enabled = false;
                 btnDelete.Enabled = false;
                 btnAdd.Enabled = true;
@@ -525,7 +510,7 @@ namespace Carsharing.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Ошибка: {ex.Message}", "Ошибка");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
             }
         }
 

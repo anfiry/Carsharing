@@ -35,7 +35,6 @@ namespace Carsharing.Forms
                 btnRentals.Text = "Аренды";
             }
 
-            // Загружаем HomeControl
             try
             {
                 LoadContent(new HomeControl(_currentAccount));
@@ -49,8 +48,13 @@ namespace Carsharing.Forms
         public void OnClosed()
         {
             if (back)
-            { back = false; }
-            else { Application.Exit(); }
+            {
+                back = false;
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         private void LoadContent(UserControl control)
@@ -104,11 +108,8 @@ namespace Carsharing.Forms
         {
             back = true;
             this.Close();
-            LoginForm loginForm = new LoginForm();
-            loginForm.Show();
 
-
-            /*LoginForm loginForm = Application.OpenForms.OfType<LoginForm>().FirstOrDefault();
+            LoginForm loginForm = Application.OpenForms.OfType<LoginForm>().FirstOrDefault();
             if (loginForm != null)
             {
                 loginForm.Show();
@@ -117,14 +118,14 @@ namespace Carsharing.Forms
             {
                 loginForm = new LoginForm();
                 loginForm.Show();
-            }*/
+            }
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
-                Application.Exit();
-            
+
+            OnClosed();
+
         }
     }
 }

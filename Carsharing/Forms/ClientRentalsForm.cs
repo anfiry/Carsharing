@@ -31,7 +31,7 @@ namespace Carsharing.Forms
 
             foreach (DataRow row in data.Rows)
             {
-                string carName = $"{row["brand"]} {row["model"]}";
+                string carName = row["car_info"].ToString();  
                 displayTable.Rows.Add(
                     carName,
                     row["state_number"].ToString(),

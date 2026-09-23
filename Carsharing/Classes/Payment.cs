@@ -15,8 +15,9 @@ namespace Carsharing.Classes
         public int? RentalId { get; set; }
         public int? FineId { get; set; }
         public int PaymentStatusId { get; set; }
+        public int CardId { get; set; }
         public decimal Amount { get; set; }
-        public DateTime PaymentTime { get; set; }
+        
 
 
 

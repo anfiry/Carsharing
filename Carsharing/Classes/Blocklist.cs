@@ -54,7 +54,7 @@ namespace Carsharing.Classes
         }
 
 
-        public DataTable GetActiveBlocks()
+        /*public DataTable GetActiveBlocks()
         {
             using (var db = new DBService())
             {
@@ -66,7 +66,7 @@ namespace Carsharing.Classes
             JOIN client c ON a.id_account = c.account_id
             WHERE b.unblock_date IS NULL");
             }
-        }
+        }*/
 
 
     }

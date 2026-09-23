@@ -343,8 +343,8 @@ namespace Carsharing.UserControls
                     return;
                 }
 
-                var rental = new Rental();
-                rental.StartRental(clientId, _selectedCarId, parkingId);
+                var rentalService = new RentalService();
+                int rentalId = rentalService.StartRental(clientId, _selectedCarId, parkingId);
 
                 MessageBox.Show("Аренда начата!", "Успех");
                 LoadAvailableCars();

@@ -65,25 +65,7 @@ namespace Carsharing.Classes
                 db.ExecuteFunction("update_car", parameters);
             }
         }
-        public int AddBrand(string brandName)
-        {
-            using (var db = new DBService())
-            {
-                return Convert.ToInt32(db.ExecuteFunction(
-                    "add_brand",
-                    new NpgsqlParameter("p_brand", brandName)));
-            }
-        }
-
-        public int AddModel(string modelName)
-        {
-            using (var db = new DBService())
-            {
-                return Convert.ToInt32(db.ExecuteFunction(
-                    "add_model",
-                    new NpgsqlParameter("p_model", modelName)));
-            }
-        }
+       
 
         public void DeleteCar( int idCar)
         {
@@ -99,14 +81,7 @@ namespace Carsharing.Classes
         }
 
 
-        public DataTable GetAvailableCars()
-        {
-            using (var db = new DBService())
-            {
-
-                return db.ExecuteQuery("SELECT * FROM get_available_cars()");
-            }
-        }
+       
 
         public DataTable GetModelsByBrand(string brand)
         {
@@ -137,57 +112,7 @@ namespace Carsharing.Classes
             }
         }
 
-        public void ChangeStatus(int idCar, int statusId)
-        {
-            using (var db = new DBService())
-            {
-
-                db.ExecuteNonQuery("UPDATE Car SET car_status_id = @p_car_status_id WHERE id_car = @p_car_id",
-                new NpgsqlParameter("p_car_id", idCar),
-                new NpgsqlParameter("car_status_id", statusId));
-            }
-        }
-
-
-        public string GetStatusName(int statusId)
-        {
-            using (var db = new DBService())
-            {
-                var result = db.ExecuteQuery(
-                    "SELECT car_status_name FROM car_status WHERE id_car_status = @p_status_id",
-                    new NpgsqlParameter("p_status_id", statusId));
-
-                return result.Rows.Count > 0 ? result.Rows[0][0].ToString() : "Неизвестно";
-            }
-        }
-
-
-        public string GetFuelTypeName(int fuelTypeId)
-        {
-            using (var db = new DBService())
-            {
-                var result = db.ExecuteQuery(
-                    "SELECT fuel_type_name FROM Car_fuel_type WHERE id_fuel_type = @p_car_fuel_type_id",
-                    new NpgsqlParameter("p_car_fuel_type_id", fuelTypeId));
-
-                return result.Rows.Count > 0 ? result.Rows[0][0].ToString() : "Неизвестно";
-            }
-        }
-
-
-        public string GetColorName(int colorId)
-        {
-            using (var db = new DBService())
-            {
-                var result = db.ExecuteQuery(
-                    "SELECT car_color_name FROM car_color WHERE id_car_color = @p_color_id",
-                    new NpgsqlParameter("p_color_id", colorId));
-
-                return result.Rows.Count > 0 ? result.Rows[0][0].ToString() : "Неизвестно";
-            }
-        }
-
-
+       
 
         public int GetOrAddColor(string colorName)
         {
